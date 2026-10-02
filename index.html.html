@@ -251,6 +251,19 @@ a.row:hover{border-color:var(--acc-line);background:#fff}
 
 .hidden-input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
 
+/* ============ GELİŞMİŞ KART DÜZENLEME / ÇÖP KUTUSU ============ */
+.today-tools{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px;padding:12px 14px;background:linear-gradient(135deg,#fff7ed,#fff);border:1px solid var(--acc-line);border-radius:14px}
+.today-tools .tool-title{font-size:12px;font-weight:800;color:#c2410c;display:flex;align-items:center;gap:6px;margin-right:auto}
+.card-edit-btn{position:absolute;right:10px;top:10px;z-index:2}
+.card .card-top{padding-right:34px}
+.topic-picker{display:flex;flex-wrap:wrap;gap:8px;max-height:260px;overflow:auto;padding:2px}
+.topic-opt{padding:8px 11px;border-radius:10px;background:var(--panel);border:1px solid var(--line);font-size:12px;font-weight:700;color:var(--text-2);cursor:pointer;user-select:none;transition:.15s}
+.topic-opt:hover{border-color:var(--acc-line);background:#fff}
+.topic-opt.on{background:linear-gradient(135deg,rgba(255,138,31,.16),rgba(255,94,0,.08));border-color:var(--acc);color:#c2410c}
+.editor-summary{background:#f8fafc;border:1px solid var(--line);border-radius:11px;padding:10px 12px;font-size:12px;color:var(--text-2);line-height:1.5}
+.trash-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:10px 12px}
+.trash-row .grow{min-width:220px}
+.autosave-badge{font-size:10.5px;font-weight:800;color:#15803d;background:#f0fdf4;border:1px solid #bbf7d0;padding:5px 8px;border-radius:8px}
 @media (max-width:900px){
   .sidebar{position:fixed;left:0;top:0;transform:translateX(-102%);transition:transform .22s ease}
   .sidebar.open{transform:none}
@@ -458,10 +471,11 @@ function totalPomodoro(){ return (state.pomodoro.records||[]).length; }
 
 const STORE_KEY = "dekai_yks_v3";
 const DEFAULT_STATE = {
-  version: 3,
+  version: 4,
   setup: null, program: [], tests: [], denemeler: [],
   resources: {}, notes: {}, steps: {},
   playlists: null, repetitions: [], badges: [],
+  trash: [], history: [],
   settings: { geminiKey:"", ytKey:"" },
   ui: { visibleDays: 10 },
   pomodoro: { date:"", count:0, workMin:25, breakMin:5, customWork:25, customBreak:5, records:[] }
@@ -478,15 +492,73 @@ function load(){
       { settings: Object.assign({}, DEFAULT_STATE.settings, parsed.settings||{}),
         ui: Object.assign({}, DEFAULT_STATE.ui, parsed.ui||{}),
         pomodoro: Object.assign({}, DEFAULT_STATE.pomodoro, parsed.pomodoro||{}),
-        steps: parsed.steps || {}, repetitions: parsed.repetitions || [], badges: parsed.badges || [] });
+        steps: parsed.steps || {}, repetitions: parsed.repetitions || [], badges: parsed.badges || [],
+        trash: Array.isArray(parsed.trash) ? parsed.trash : [],
+        history: Array.isArray(parsed.history) ? parsed.history : [] });
     if(!Array.isArray(merged.playlists) || !merged.playlists.length) merged.playlists = seedPlaylists();
     return merged;
   }catch(e){ const fresh = structuredClone(DEFAULT_STATE); fresh.playlists = seedPlaylists(); return fresh; }
 }
+let _saveTimer = null;
 function save(){
-  try{ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }
+  try{
+    clearTimeout(_saveTimer);
+    _saveTimer = setTimeout(saveNow, 80);
+    updateAutoSaveBadge();
+  }catch(e){ toast("Kayıt hatası: depolama alanı dolu olabilir"); }
+}
+function saveNow(){
+  try{ clearTimeout(_saveTimer); localStorage.setItem(STORE_KEY, JSON.stringify(state)); updateAutoSaveBadge(); }
   catch(e){ toast("Kayıt hatası: depolama alanı dolu olabilir"); }
 }
+function updateAutoSaveBadge(){
+  const el = $("#autoSaveBadge"); if(el) el.textContent = "✓ Otomatik kaydedildi";
+}
+function snapshotState(){ return JSON.parse(JSON.stringify(state)); }
+function snapshotStateValue(v){ return JSON.parse(JSON.stringify(v)); }
+function pushHistory(label){
+  state.history = Array.isArray(state.history) ? state.history : [];
+  state.history.push({id:uid(),label,at:new Date().toISOString(),state:snapshotState()});
+  if(state.history.length>15) state.history.shift();
+}
+function pushTrash(item){
+  state.trash = Array.isArray(state.trash) ? state.trash : [];
+  state.trash.unshift({id:uid(),deletedAt:new Date().toISOString(),...item});
+  if(state.trash.length>50) state.trash.length=50;
+}
+function restoreHistory(id){
+  const h=(state.history||[]).find(x=>x.id===id); if(!h) return;
+  const current=snapshotState(), history=state.history;
+  state=JSON.parse(JSON.stringify(h.state));
+  state.history=history.filter(x=>x.id!==id);
+  pushTrash({kind:"history-undo",label:"Geri alma öncesi durum",data:current});
+  saveNow(); renderAll(); toast("↩️ Son işlem geri alındı","green");
+}
+function softDeleteCard(dayIso,cardId){
+  const day=state.program.find(d=>d.iso===dayIso); if(!day) return;
+  const idx=day.cards.findIndex(c=>c.id===cardId); if(idx<0) return;
+  pushHistory("Çalışma kartı silindi");
+  const card=day.cards[idx];
+  pushTrash({kind:"card",label:`${card.subject||"Kart"} – ${card.topic||card.type||""}`,data:{dayIso,index:idx,card:snapshotStateValue(card)}});
+  day.cards.splice(idx,1); saveNow(); renderAll(); toast("🗑 Kart çöp kutusuna taşındı");
+}
+function restoreTrash(id){
+  const item=(state.trash||[]).find(x=>x.id===id); if(!item) return;
+  if(item.kind==="card"){
+    const day=state.program.find(d=>d.iso===item.data.dayIso);
+    if(day){
+      day.cards.splice(Math.min(item.data.index,day.cards.length),0,item.data.card);
+      state.trash=state.trash.filter(x=>x.id!==id);
+      saveNow(); renderAll(); toast("↩️ Kart geri getirildi","green");
+    }
+  }
+}
+function emptyTrash(){
+  if(!state.trash?.length) return toast("Çöp kutusu zaten boş");
+  if(!confirm("Çöp kutusundaki tüm veriler kalıcı olarak silinsin mi?")) return;
+  state.trash=[]; saveNow(); renderAll(); toast("Çöp kutusu temizlendi");
+}
+window.addEventListener("beforeunload",saveNow);
 function ensurePomodoroToday(){
   const today = iso(new Date());
   if(state.pomodoro.date !== today){ state.pomodoro.date = today; state.pomodoro.count = 0; save(); }
@@ -691,6 +763,8 @@ function importJSON(file){
         playlists: (Array.isArray(data.playlists) && data.playlists.length) ? data.playlists : seedPlaylists(),
         repetitions: data.repetitions || [],
         badges: data.badges || [],
+        trash: Array.isArray(data.trash) ? data.trash : [],
+        history: Array.isArray(data.history) ? data.history : [],
         pomodoro: Object.assign({}, DEFAULT_STATE.pomodoro, data.pomodoro || {}),
         settings: state.settings,
         ui: state.ui
@@ -1037,6 +1111,7 @@ function cardHTML(c, dayIso){
     `<a class="chip" target="_blank" rel="noopener" href="${esc(r.url)}">🔗 ${esc(r.label||"Kaynak")}
       <span data-act="delres" data-key="${esc(resKey(c))}" data-idx="${i}" style="margin-left:4px;color:#dc2626;font-weight:800">✕</span></a>`).join("");
   return `<article class="card ${c.done?"done":""}" data-day="${dayIso}" data-card="${c.id}">
+    <button class="btn sm icon card-edit-btn" title="Çalışma kartını düzenle" data-act="edit-card" data-day="${dayIso}" data-card="${c.id}">✏️</button>
     <div class="card-top">
       <span class="pill ${c.phase==="AYT"?"ayt":""}">${esc(EXAM_LABELS[c.examType]||c.examType)}</span>
       <span class="time">🕙 ${esc(c.time)}</span>
@@ -1053,6 +1128,7 @@ function cardHTML(c, dayIso){
       <button class="btn sm" data-act="study" data-day="${dayIso}" data-card="${c.id}">📚 Konuyu Çalış</button>
       <button class="btn sm" data-act="test" data-day="${dayIso}" data-card="${c.id}">📝 Test Çöz</button>
       <button class="btn sm ${c.done?"ok":"todo"}" data-act="toggle" data-day="${dayIso}" data-card="${c.id}">${c.done?"☑ Tamamlandı":"Tamamlandı"}</button>
+      <button class="btn sm danger" data-act="delete-card" data-day="${dayIso}" data-card="${c.id}" title="Çöp kutusuna taşı">🗑</button>
     </div>
   </article>`;
 }
@@ -1071,6 +1147,90 @@ function dayHTML(day){
   </section>`;
 }
 
+
+function subjectOptionsForSetup(){
+  const types=(state.setup?.examTypes&&state.setup.examTypes.length)?state.setup.examTypes:["TYT"];
+  const set=new Set(); types.forEach(t=>Object.keys(CURRICULUM[t]||{}).forEach(s=>set.add(s)));
+  return Array.from(set);
+}
+function topicsForSubject(subject){
+  const types=(state.setup?.examTypes&&state.setup.examTypes.length)?state.setup.examTypes:["TYT"];
+  const out=[],seen=new Set();
+  types.forEach(t=>(CURRICULUM[t]||{})[subject]?.forEach(topic=>{
+    if(!seen.has(topic)){seen.add(topic);out.push({examType:t,topic});}
+  }));
+  return out;
+}
+function restoreDayAuto(dayIso){
+  const fresh=buildProgram().find(d=>d.iso===dayIso);
+  const current=state.program.find(d=>d.iso===dayIso);
+  if(!fresh||!current) return;
+  fresh.cards.forEach(fc=>{
+    const old=current.cards.find(c=>c.id===fc.id);
+    if(old) Object.assign(fc,{done:old.done,correct:old.correct,wrong:old.wrong,empty:old.empty});
+  });
+  pushHistory("Otomatik plana dönüldü");
+  state.program=state.program.map(d=>d.iso===dayIso?fresh:d);
+  saveNow();
+}
+function openCardEditor(dayIso,cardId){
+  const day=state.program.find(d=>d.iso===dayIso), card=day?.cards.find(c=>c.id===cardId);
+  if(!day||!card||card.type!=="lesson") return;
+  const subjects=subjectOptionsForSetup(); let selected=card.topic?[card.topic]:[];
+  openModal(`✏️ ${dayIso===iso(new Date())?"Bugünün Çalışma Kartını Düzenle":"Çalışma Kartını Düzenle"}`,`
+    <div class="note" style="margin-bottom:12px">Ders seçtiğinde o derse ait konular otomatik gelir. Birden fazla konu seçebilirsin.</div>
+    <div class="form-grid">
+      <div class="field"><label>Ders</label><select id="editSubject">${subjects.map(s=>`<option value="${esc(s)}" ${s===card.subject?"selected":""}>${esc(s)}</option>`).join("")}</select></div>
+      <div class="field"><label>Çalışma saati</label><input id="editTime" value="${esc(card.time||"10:00 – 11:00")}"></div>
+      <div class="field full"><label>Konular — çoklu seçim</label><div id="topicPicker" class="topic-picker"></div></div>
+      <div class="field full"><div id="editSummary" class="editor-summary"></div></div>
+    </div>
+    <div class="info-box"><span>💾</span><div>Kaydettiğinde manuel seçim otomatik programın üzerine yazılır ve sayfa yenilense bile korunur.</div></div>
+    <div class="modal-foot"><button class="btn ghost" data-close>İptal</button><button class="btn" id="autoReturnBtn">↩️ Otomatik plana dön</button><button class="btn primary" id="saveCardEdit">💾 Kaydet</button></div>
+  `,{wide:true});
+  const picker=$("#topicPicker"),subj=$("#editSubject"),summary=$("#editSummary");
+  function drawTopics(){
+    const options=topicsForSubject(subj.value);
+    selected=selected.filter(t=>options.some(o=>o.topic===t));
+    picker.innerHTML=options.map(o=>`<span class="topic-opt ${selected.includes(o.topic)?"on":""}" data-topic="${esc(o.topic)}">${esc(o.topic)}</span>`).join("")||`<div class="note">Bu ders için kayıtlı konu bulunamadı.</div>`;
+    summary.innerHTML=selected.length?`<b>${selected.length} konu seçildi:</b> ${selected.map(esc).join(" · ")}<br><span class="note">İlk konu mevcut karta yazılır; diğerleri aynı güne ek çalışma kartı olur.</span>`:`<b>Konu seçilmedi.</b> En az bir konu seçmelisin.`;
+  }
+  picker.addEventListener("click",e=>{
+    const el=e.target.closest(".topic-opt"); if(!el) return;
+    const t=el.dataset.topic; selected=selected.includes(t)?selected.filter(x=>x!==t):selected.concat(t); drawTopics();
+  });
+  subj.onchange=()=>{selected=[];drawTopics();}; drawTopics();
+  $("#saveCardEdit").onclick=()=>{
+    if(!selected.length) return toast("En az bir konu seçmelisin");
+    pushHistory("Çalışma kartı düzenlendi");
+    const base=day.cards.find(c=>c.id===cardId), now=new Date().toISOString();
+    const info=topicsForSubject(subj.value), first=selected[0];
+    base.subject=subj.value; base.topic=first;
+    base.examType=info.find(x=>x.topic===first)?.examType||base.examType;
+    base.phase=base.examType==="TYT"?"TYT":"AYT"; base.time=$("#editTime").value.trim()||base.time;
+    base.manual=true; base.manualEditedAt=now;
+    const existing=new Set(day.cards.filter(c=>c.type==="lesson"&&c.id!==base.id).map(c=>c.topic));
+    selected.slice(1).forEach((topic,i)=>{
+      if(existing.has(topic)) return;
+      const et=info.find(x=>x.topic===topic)?.examType||base.examType;
+      day.cards.push({id:dayIso+"-manual-"+uid(),time:i===0?"11:00 – 12:00":"12:00 – 13:00",type:"lesson",phase:et==="TYT"?"TYT":"AYT",examType:et,subject:subj.value,topic,q:QUESTION_COUNT[subj.value]??15,done:false,manual:true,manualEditedAt:now});
+    });
+    saveNow();closeModal();renderAll();toast("💾 Kart manuel olarak güncellendi","green");
+  };
+  $("#autoReturnBtn").onclick=()=>{
+    if(!confirm("Bu gün için manuel değişiklikler kaldırılıp otomatik plana dönülsün mü?")) return;
+    restoreDayAuto(dayIso);closeModal();renderAll();toast("↩️ Otomatik plana dönüldü","green");
+  };
+}
+function renderTrash(){
+  const rows=(state.trash||[]).filter(x=>x.kind==="card").map(x=>`<div class="trash-row"><span style="font-size:18px">🗑️</span><div class="grow"><div class="t">${esc(x.label)}</div><div class="s">${new Date(x.deletedAt).toLocaleString("tr-TR")}</div></div><button class="btn sm" data-act="restore-trash" data-id="${esc(x.id)}">↩️ Geri Getir</button></div>`).join("");
+  return rows||`<div class="note">Çöp kutusu boş.</div>`;
+}
+function openTrash(){
+  openModal("🗑️ Çöp Kutusu",`<div class="note" style="margin-bottom:12px">Yanlışlıkla sildiğin çalışma kartlarını buradan geri getirebilirsin.</div><div class="rowlist">${renderTrash()}</div><div class="modal-foot"><button class="btn danger" id="emptyTrashBtn">🗑️ Çöp Kutusunu Temizle</button><button class="btn ghost" data-close>Kapat</button></div>`,{wide:true});
+  $("#emptyTrashBtn").onclick=()=>{emptyTrash();closeModal();};
+}
+
 function renderProgram(stats){
   stats = stats || computeStats();
   const wrap = $("#view-program");
@@ -1082,7 +1242,15 @@ function renderProgram(stats){
   }
   const shown = state.program.slice(0, state.ui.visibleDays);
   const more = state.program.length > state.ui.visibleDays;
+  const todayDay=state.program.find(d=>d.iso===iso(new Date()));
+  const todayLesson=todayDay?.cards?.find(c=>c.type==="lesson");
   wrap.innerHTML = `
+    <div class="today-tools">
+      <div class="tool-title">📅 Bugünün çalışma yönetimi</div>
+      <span class="autosave-badge" id="autoSaveBadge">✓ Otomatik kaydedildi</span>
+      ${todayLesson?`<button class="btn sm primary" data-act="edit-card" data-day="${todayDay.iso}" data-card="${todayLesson.id}">✏️ Bugünün Kartını Düzenle</button>`:""}
+      <button class="btn sm" data-act="open-trash">🗑️ Çöp Kutusu</button>
+    </div>
     <div class="stats">
       ${statBox("Genel İlerleme", stats.overall+"%", stats.overall)}
       ${statBox("TYT", stats.tyt+"%", stats.tyt)}
@@ -1531,6 +1699,14 @@ function renderSettings(){
       <div class="modal-foot"><button class="btn" id="setApiSave">Anahtarları Kaydet</button></div>
     </div>
 
+    <div class="panel" style="margin-bottom:18px">
+      <h2>↩️ Geri Alma ve Çöp Kutusu</h2>
+      <div class="note" style="margin-bottom:12px">Son işlemler geçmişte tutulur. Çalışma kartları silindiğinde önce çöp kutusuna taşınır.</div>
+      <div class="rowlist">
+        <div class="row"><span style="font-size:18px">↩️</span><div class="grow"><div class="t">Son işlemi geri al</div><div class="s">${(state.history||[]).length} kayıt saklanıyor</div></div><button class="btn sm" id="undoLast" ${state.history?.length?"":"disabled"}>Geri Al</button></div>
+        <div class="row"><span style="font-size:18px">🗑️</span><div class="grow"><div class="t">Çöp kutusu</div><div class="s">${(state.trash||[]).length} silinen kart</div></div><button class="btn sm" data-act="open-trash">Aç</button></div>
+      </div>
+    </div>
     <div class="panel">
       <h2>Tehlikeli İşlemler</h2>
       <div class="note">Bu işlemler geri alınamaz. Önce JSON yedek almanız önerilir.</div>
@@ -1540,6 +1716,8 @@ function renderSettings(){
       </div>
     </div>
   `;
+  const undoLast=$("#undoLast");
+  if(undoLast) undoLast.onclick=()=>{const h=(state.history||[]).at(-1);if(h) restoreHistory(h.id);};
   $("#setTypes").addEventListener("click", e=>{
     const c = e.target.closest(".chk"); if(c) c.classList.toggle("on");
   });
@@ -1568,6 +1746,7 @@ function renderSettings(){
   };
   $("#resetAll").onclick = ()=>{
     if(!confirm("⚠️ TÜM veriler silinecek. Önce JSON yedek almayı düşündün mü? Emin misin?")) return;
+    pushTrash({kind:"full-backup",label:"Sıfırlama öncesi tüm veriler",data:snapshotState()});
     localStorage.removeItem(STORE_KEY);
     state = structuredClone(DEFAULT_STATE);
     state.playlists = seedPlaylists();
@@ -1624,9 +1803,23 @@ function openWizard(){
   };
 }
 function generate(){
-  state.program = buildProgram();
-  state.ui.visibleDays = 10;
-  save(); renderAll();
+  const oldProgram=Array.isArray(state.program)?state.program:[];
+  const fresh=buildProgram();
+  const oldByDay=new Map(oldProgram.map(d=>[d.iso,d]));
+  fresh.forEach(day=>{
+    const old=oldByDay.get(day.iso); if(!old) return;
+    day.cards.forEach(fc=>{
+      const same=old.cards.find(c=>c.id===fc.id);
+      if(same) Object.assign(fc,{done:same.done,correct:same.correct,wrong:same.wrong,empty:same.empty});
+    });
+    (old.cards||[]).filter(c=>c.manual).forEach(mc=>{
+      if(!day.cards.some(c=>c.id===mc.id)) day.cards.push(mc);
+    });
+  });
+  pushHistory("Program yeniden oluşturuldu");
+  state.program=fresh;
+  state.ui.visibleDays=Math.max(10,state.ui.visibleDays||10);
+  saveNow(); renderAll();
 }
 
 function openModal(title, body, opts={}){
@@ -1877,6 +2070,7 @@ document.addEventListener("click", ev=>{
     if(a === "edit-pl"){ openPlaylistEditor(pl); return; }
     if(a === "del-pl"){
       if(!confirm(`"${pl.subject}" listesini silmek istediğine emin misin?`)) return;
+      pushHistory("Playlist silindi");
       state.playlists = state.playlists.filter(x=>x.id !== id);
       save(); renderAll(); toast("Liste silindi");
       return;
@@ -1886,14 +2080,21 @@ document.addEventListener("click", ev=>{
   const el = ev.target.closest("[data-act]"); if(!el) return;
   const act = el.dataset.act;
 
+  if(act === "open-trash"){ openTrash(); return; }
+  if(act === "restore-trash"){ restoreTrash(el.dataset.id); return; }
+  if(act === "edit-card"){ openCardEditor(el.dataset.day,el.dataset.card); return; }
+  if(act === "delete-card"){ if(confirm("Bu çalışma kartı çöp kutusuna taşınsın mı?")) softDeleteCard(el.dataset.day,el.dataset.card); return; }
+
   if(act === "del-rep-by-id"){
     const id = el.dataset.id;
+    pushHistory("Tekrar kaydı silindi");
     state.repetitions = state.repetitions.filter(x=>x.id !== id);
     save(); renderAll(); toast("Tekrar kaldırıldı"); return;
   }
   if(act === "delres"){
     ev.preventDefault();
     const k = el.dataset.key, i = Number(el.dataset.idx);
+    pushHistory("Özel kaynak silindi");
     if(state.resources[k]) state.resources[k].splice(i,1);
     save(); renderAll(); return;
   }
