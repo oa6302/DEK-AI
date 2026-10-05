@@ -19,8 +19,6 @@ a{color:inherit;text-decoration:none}
 button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
 button{cursor:pointer;border:none;background:none}
 .app{display:flex;min-height:100vh}
-
-/* SIDEBAR */
 .sidebar{width:252px;flex:0 0 252px;background:linear-gradient(180deg,#0d1e40,#081428);border-right:1px solid #0a1730;padding:20px 14px;position:sticky;top:0;height:100vh;overflow:auto;z-index:60}
 .brand{display:flex;align-items:center;gap:10px;padding:6px 8px 20px}
 .brand-logo{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-weight:800;font-size:15px;color:#fff;background:linear-gradient(135deg,var(--acc),var(--acc-2))}
@@ -32,8 +30,6 @@ button{cursor:pointer;border:none;background:none}
 .nav button.active{background:linear-gradient(90deg,rgba(255,138,31,.28),rgba(255,94,0,.12));color:#fff;box-shadow:inset 0 0 0 1px rgba(255,138,31,.5)}
 .nav .ico{width:20px;text-align:center;font-size:15px}
 .side-foot{margin-top:22px;padding:12px;border-radius:12px;background:#0a1836;border:1px solid #1e3a72;font-size:11.5px;color:#9db1d8;line-height:1.6}
-
-/* MAIN */
 .main{flex:1;min-width:0;padding:20px 26px 90px;background:#f7f9fc}
 .topbar{display:flex;align-items:center;gap:14px;margin-bottom:18px;flex-wrap:wrap}
 .hamb{display:none;width:42px;height:42px;border-radius:11px;background:#fff;border:1px solid var(--line);font-size:19px;color:var(--navy)}
@@ -48,21 +44,12 @@ button{cursor:pointer;border:none;background:none}
 .btn.todo{background:#fef2f2;border-color:#fecaca;color:#b91c1c}
 .btn.danger{background:#fef2f2;border-color:#fecaca;color:#b91c1c}
 .btn.purple{background:linear-gradient(135deg,#8b5cf6,#7c3aed);border:none;color:#fff}
+.btn.blue{background:linear-gradient(135deg,#3b82f6,#2563eb);border:none;color:#fff}
 .btn.icon{padding:7px 9px;font-size:12px;border-radius:9px;min-width:34px;justify-content:center}
 
-/* ============ HOME ============ */
-.home-hero{
-  background:linear-gradient(135deg,#0a1730 0%,#142a56 60%,#1e3a72 100%);
-  border-radius:20px;padding:26px 28px;color:#fff;margin-bottom:20px;
-  display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center;
-  position:relative;overflow:hidden;
-  box-shadow:0 18px 50px -26px rgba(10,23,48,.6);
-}
-.home-hero::before{
-  content:"";position:absolute;right:-60px;top:-60px;width:280px;height:280px;
-  background:radial-gradient(circle,rgba(255,138,31,.35),transparent 65%);
-  pointer-events:none;
-}
+/* HOME */
+.home-hero{background:linear-gradient(135deg,#0a1730 0%,#142a56 60%,#1e3a72 100%);border-radius:20px;padding:26px 28px;color:#fff;margin-bottom:20px;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center;position:relative;overflow:hidden;box-shadow:0 18px 50px -26px rgba(10,23,48,.6)}
+.home-hero::before{content:"";position:absolute;right:-60px;top:-60px;width:280px;height:280px;background:radial-gradient(circle,rgba(255,138,31,.35),transparent 65%);pointer-events:none}
 .home-hero .hero-hi{font-size:11px;font-weight:800;letter-spacing:1.2px;color:#ffb066;text-transform:uppercase;margin-bottom:6px}
 .home-hero .hero-name{font-size:24px;font-weight:800;margin-bottom:6px;letter-spacing:-.3px}
 .home-hero .hero-sub{font-size:13px;color:#b8c6e5;line-height:1.5;max-width:560px}
@@ -71,25 +58,42 @@ button{cursor:pointer;border:none;background:none}
 .home-hero .hero-stat .hv{font-size:22px;font-weight:800;color:#fff}
 .home-hero .hero-stat .hl{font-size:10.5px;color:#9db1d8;letter-spacing:.4px;text-transform:uppercase;font-weight:700}
 .home-hero .hero-emoji{font-size:72px;line-height:1;filter:drop-shadow(0 10px 20px rgba(0,0,0,.3))}
-@media (max-width:700px){
-  .home-hero{grid-template-columns:1fr;text-align:left;padding:22px}
-  .home-hero .hero-emoji{display:none}
+/* Sınav sayacı */
+.exam-countdown{
+  background:rgba(255,138,31,.14);border:1px solid rgba(255,138,31,.45);
+  border-radius:12px;padding:10px 14px;display:inline-flex;align-items:center;gap:10px;margin-top:14px;
 }
+.exam-countdown .ec-num{font-size:26px;font-weight:800;color:#ffb066;line-height:1;letter-spacing:-.5px}
+.exam-countdown .ec-txt{font-size:11.5px;font-weight:700;color:#fff;letter-spacing:.4px;line-height:1.35}
+.exam-countdown .ec-txt small{display:block;color:#9db1d8;font-weight:600;font-size:10.5px}
+.exam-countdown.urgent{background:rgba(220,38,38,.2);border-color:rgba(220,38,38,.5)}
+.exam-countdown.urgent .ec-num{color:#fca5a5}
 
-/* QUICK NAV ICONS */
-.quick-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px}
-.quick-card{
-  background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px 14px;
-  text-align:center;cursor:pointer;transition:.18s;
-  display:flex;flex-direction:column;align-items:center;gap:8px;
+/* Motivasyon */
+.motiv-card{
+  background:linear-gradient(135deg,#fff7ed 0%,#ffffff 70%,#fef3c7 100%);
+  border:1px solid var(--acc-line);border-radius:16px;padding:18px 22px;
+  margin-bottom:20px;display:flex;align-items:center;gap:16px;
+  box-shadow:0 10px 30px -18px rgba(255,138,31,.5);position:relative;overflow:hidden;
 }
+.motiv-card::before{content:"";position:absolute;left:-40px;bottom:-40px;width:160px;height:160px;background:radial-gradient(circle,rgba(255,138,31,.12),transparent 70%);pointer-events:none}
+.motiv-card .mv-icon{font-size:32px;line-height:1;flex:0 0 auto}
+.motiv-card .mv-txt{flex:1;color:var(--text);font-size:14px;font-weight:600;line-height:1.5;font-style:italic;position:relative}
+.motiv-card .mv-txt::before{content:'"';color:var(--acc);font-size:24px;font-weight:800;margin-right:4px;font-family:Georgia,serif;vertical-align:-4px}
+.motiv-card .mv-txt::after{content:'"';color:var(--acc);font-size:24px;font-weight:800;margin-left:4px;font-family:Georgia,serif;vertical-align:-4px}
+.motiv-card .mv-badge{font-size:10.5px;font-weight:800;color:#c2410c;background:#fff;border:1px solid var(--acc-line);padding:4px 9px;border-radius:8px;white-space:nowrap;letter-spacing:.3px}
+@media (max-width:600px){.motiv-card{padding:14px 16px;gap:10px}.motiv-card .mv-icon{font-size:24px}.motiv-card .mv-txt{font-size:13px}}
+
+@media (max-width:700px){.home-hero{grid-template-columns:1fr;text-align:left;padding:22px}.home-hero .hero-emoji{display:none}}
+
+.quick-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px}
+.quick-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px 14px;text-align:center;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;transition:.18s}
 .quick-card:hover{border-color:var(--acc-line);transform:translateY(-2px);box-shadow:0 10px 26px -14px rgba(255,138,31,.5)}
 .quick-card .qi{font-size:30px;line-height:1}
 .quick-card .qt{font-size:12.5px;font-weight:800;color:var(--navy)}
 .quick-card .qs{font-size:10.5px;color:var(--muted);font-weight:600}
 .quick-card .qbadge{margin-top:2px;font-size:10px;font-weight:800;padding:2px 7px;border-radius:8px;background:var(--acc-soft);color:#c2410c;border:1px solid var(--acc-line)}
 
-/* SECTION HEADERS */
 .section-head{display:flex;align-items:center;gap:12px;margin:22px 0 14px;flex-wrap:wrap}
 .section-head h2{font-size:15px;font-weight:800;color:var(--navy);letter-spacing:.2px}
 .section-head .sh-line{flex:1;height:1px;background:var(--line)}
@@ -97,12 +101,7 @@ button{cursor:pointer;border:none;background:none}
 .section-head .sh-btn:hover{text-decoration:underline}
 
 /* POMODORO */
-.pomo-wrap{
-  background:linear-gradient(135deg,#fff 0%,#fffaf3 50%,#fff7ed 100%);
-  border:1px solid var(--acc-line);border-radius:20px;padding:22px 24px;
-  display:grid;grid-template-columns:auto 1fr auto;gap:26px;align-items:center;
-  box-shadow:0 18px 50px -26px rgba(255,138,31,.6);position:relative;overflow:hidden;
-}
+.pomo-wrap{background:linear-gradient(135deg,#fff 0%,#fffaf3 50%,#fff7ed 100%);border:1px solid var(--acc-line);border-radius:20px;padding:22px 24px;display:grid;grid-template-columns:auto 1fr auto;gap:26px;align-items:center;box-shadow:0 18px 50px -26px rgba(255,138,31,.6);position:relative;overflow:hidden}
 .pomo-wrap::before{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;background:radial-gradient(circle,rgba(255,138,31,.18),transparent 65%);pointer-events:none}
 .pomo-wrap.break-mode{background:linear-gradient(135deg,#f0fdf4 0%,#fff 100%);border-color:#bbf7d0}
 .pomo-ring{position:relative;width:170px;height:170px;flex:0 0 auto}
@@ -127,14 +126,8 @@ button{cursor:pointer;border:none;background:none}
 .btn-pom{padding:11px 18px;border-radius:12px;font-weight:800;font-size:13px;background:#fff;border:1px solid #e2e8f0;color:var(--navy)}
 .btn-pom.primary{background:linear-gradient(135deg,var(--acc),var(--acc-2));border:none;color:#fff}
 .pom-count-badge{font-size:12.5px;font-weight:800;color:#c2410c;background:#fff;border:1px solid var(--acc-line);padding:9px 14px;border-radius:12px}
-@media (max-width:820px){
-  .pomo-wrap{grid-template-columns:1fr;text-align:center;gap:18px;padding:20px}
-  .pomo-ring{margin:0 auto}
-  .pomo-stats{align-items:center}
-  .pom-btns{justify-content:center}
-}
+@media (max-width:820px){.pomo-wrap{grid-template-columns:1fr;text-align:center;gap:18px;padding:20px}.pomo-ring{margin:0 auto}.pomo-stats{align-items:center}.pom-btns{justify-content:center}}
 
-/* STATS */
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px}
 .stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;position:relative;overflow:hidden}
 .stat::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--acc),var(--acc-2))}
@@ -144,7 +137,6 @@ button{cursor:pointer;border:none;background:none}
 .stat .bar{height:5px;border-radius:4px;background:#eef2f8;margin-top:9px;overflow:hidden}
 .stat .bar i{display:block;height:100%;border-radius:4px;background:linear-gradient(90deg,var(--acc),var(--acc-2))}
 
-/* CARDS */
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(295px,1fr));gap:13px}
 .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden;box-shadow:0 2px 12px -6px rgba(10,23,48,.07)}
 .card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--acc),var(--acc-2))}
@@ -169,8 +161,10 @@ button{cursor:pointer;border:none;background:none}
 .chip.yt-play{border-color:#fecaca;color:#b91c1c;background:#fef2f2;font-weight:800}
 .chip.ogm-ozet{border-color:#bbf7d0;color:#15803d;background:#f0fdf4}
 .chip.ogm-den{border-color:#bfdbfe;color:#1d4ed8;background:#eff6ff}
+.chip.edit-chip{border-color:#bfdbfe;color:#1d4ed8;background:#eff6ff;font-weight:800}
+.chip.edit-chip:hover{background:#dbeafe;border-color:#93c5fd}
 .actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:auto}
-.actions .btn{flex:1;justify-content:center;min-width:88px}
+.actions .btn{flex:1;justify-content:center;min-width:80px}
 
 .review-list{list-style:none;display:flex;flex-direction:column;gap:10px}
 .review-list li{font-size:12.5px;color:var(--text-2);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 11px;line-height:1.5}
@@ -186,13 +180,11 @@ button{cursor:pointer;border:none;background:none}
 .day-head .day-sub{font-size:12px;color:var(--muted)}
 .day.today .day-head h3{color:#c2410c}
 
-/* PANELS */
 .panel{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 2px 10px -6px rgba(10,23,48,.08)}
 .panel h2{font-size:12.5px;font-weight:800;letter-spacing:.6px;margin-bottom:14px;color:#c2410c;text-transform:uppercase}
 .panel-head{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
 .panel-head h2{margin:0;flex:1;font-size:12.5px;font-weight:800;letter-spacing:.6px;color:#c2410c;text-transform:uppercase}
 
-/* BADGES */
 .badges-strip{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px}
 .badge-card{min-width:110px;padding:12px 10px;border-radius:14px;background:#fff;border:1px solid var(--line);text-align:center;flex:0 0 auto;position:relative}
 .badge-card.locked{opacity:.42;filter:grayscale(.7)}
@@ -210,7 +202,6 @@ button{cursor:pointer;border:none;background:none}
 .badge-toast .bt-name{font-size:14px;font-weight:800;color:var(--navy)}
 .badge-toast .bt-desc{font-size:11px;color:var(--muted);margin-top:2px}
 
-/* MODAL */
 .overlay{position:fixed;inset:0;background:rgba(10,23,48,.55);backdrop-filter:blur(4px);display:none;z-index:200;padding:20px;overflow:auto}
 .overlay.open{display:block}
 .modal{max-width:640px;margin:40px auto;background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 30px 90px -30px rgba(10,23,48,.35);color:var(--text)}
@@ -249,7 +240,6 @@ button{cursor:pointer;border:none;background:none}
 .opt.correct{background:#f0fdf4;border:1px solid #bbf7d0}
 .opt.wrong{background:#fef2f2;border:1px solid #fecaca}
 
-/* ROWS */
 .rowlist{display:flex;flex-direction:column;gap:9px}
 .row{display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;flex-wrap:wrap;color:var(--text)}
 a.row:hover{border-color:var(--acc-line);background:#fff}
@@ -296,6 +286,12 @@ a.row:hover{border-color:var(--acc-line);background:#fff}
 .dl-card .dl-s{font-size:11px;color:var(--muted);line-height:1.5}
 
 .hidden-input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+
+/* Ders değiştirme modal içi */
+.edit-preview{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:14px}
+.edit-preview .ep-lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;font-weight:700;margin-bottom:5px}
+.edit-preview .ep-val{font-size:14px;font-weight:800;color:var(--navy)}
+.edit-preview .ep-sub{font-size:11.5px;color:var(--text-2);margin-top:3px}
 
 @media (max-width:900px){
   .sidebar{position:fixed;left:0;top:0;transform:translateX(-102%);transition:transform .22s ease}
@@ -370,10 +366,81 @@ a.row:hover{border-color:var(--acc-line);background:#fff}
 
 <script>
 /* ============================================================
-   DEK AI · v3.1 — Ana Sayfa Odaklı
+   DEK AI · v3.2 — Ders Değiştirme + Motivasyon + Sınav Sayacı
    ============================================================ */
 const DEFAULT_EXAM_DATE = "2027-06-20";
 
+/* === MOTİVASYON CÜMLELERİ (365 gün için, döner) === */
+const MOTIVATION_QUOTES = [
+  "Bugün yaptığın her çalışma, yarın seni bir adım daha ileri taşır.",
+  "Başarı, her gün tekrarlanan küçük çabaların toplamıdır.",
+  "Hedefine odaklan; engeller sadece aşılmayı bekleyen basamaklardır.",
+  "Bugünün emeği, yarının gururudur.",
+  "Küçük adımlar, büyük yolculukların başlangıcıdır.",
+  "Vazgeçmek üzere olduğun an, hedefine en yakın olduğun andır.",
+  "Zorluklar seni durdurmak için değil, güçlendirmek için vardır.",
+  "Her soru, her tekrar, seni hayalindeki üniversiteye bir adım daha yaklaştırır.",
+  "Bugün öğrendiğin bir konu, sınavda seni bir soru daha öne çıkarır.",
+  "Disiplin, motivasyondan daha güçlüdür — devam et.",
+  "En iyi yatırım, kendine yaptığın yatırımdır.",
+  "Yarın 'keşke' dememek için bugün 'iyi ki' de.",
+  "Başarı bir yolculuktur, varış noktası değil.",
+  "Hedefin büyükse engeller küçük görünür.",
+  "Bugün çalışan, yarın kazanır.",
+  "Zirveye giden yol, her gün atılan küçük adımlarla döşenir.",
+  "Kendine inan, çünkü başarının yarısı inançtır.",
+  "Bugün yaptığın fedakârlık, yarın özgürlüğün olur.",
+  "Hata yapmaktan korkma, denemekten kork.",
+  "Her gün bir önceki günden daha iyi ol.",
+  "Konsantrasyon, başarının en güçlü anahtarıdır.",
+  "Hedefine odaklan; bahaneler seni hedefinden uzaklaştırır.",
+  "Bugün verdiğin emek, yarın gurur kaynağın olacak.",
+  "Zor olan, devam edebilmektir — ve sen bunu yapabilirsin.",
+  "Başarı tesadüf değil, düzenli çalışmanın sonucudur.",
+  "En karanlık gece bile sabaha ulaşır.",
+  "Bir adım bugün, bin adım yarın demektir.",
+  "Hedefin için bugün savaş; yarın kutlayacaksın.",
+  "Beynin bir kas gibidir — kullandıkça güçlenir.",
+  "Bugün ekilen tohum, yarın yeşerecek — sabret.",
+  "Kimse mükemmel doğmaz; çalışmak seni mükemmele yaklaştırır.",
+  "Motivasyon değil, alışkanlık kazan — alışkanlık kalıcıdır.",
+  "Her yeni gün, yeni bir başlangıçtır.",
+  "Yapabileceğine inanırsan, yolun yarısını kat etmişsin demektir.",
+  "Sınav, hayatının sonu değil; en güzel başlangıçlarından biri.",
+  "Bugün verdiğin karar, yarının seni olacak.",
+  "Başarı, hazırlık ve fırsatın buluştuğu yerdir.",
+  "Düşmek önemli değil, kalkmak önemli.",
+  "Her günün sonunda kendine 'bugün ne öğrendim?' diye sor.",
+  "İmkânsız, sadece biraz daha zaman isteyen bir kelimedir.",
+  "Hedefine yaklaşmanın tek yolu, bugün başlamaktır.",
+  "Öğrenmek, hiç bitmeyen bir hazinedir.",
+  "Bugün zor, yarın kolay — devam et.",
+  "Başarı yolunda tek başına değilsin; öğretmenlerin ve kaynakların yanında.",
+  "Uyumak değil, çalışmak hayallerine götürür.",
+  "Her tekrar, öğrenmenin pekişmesidir.",
+  "Kendi hızında ilerle, ama asla durma.",
+  "Bugün attığın adım, yarın koşmanı sağlayacak.",
+  "Başarı merdiveninin ilk basamağı: inanç.",
+  "Emeğin karşılığını her zaman alırsın — sadece sabırlı ol."
+];
+
+/* === GÜNLÜK MOTİVASYON === */
+function getDailyQuote(){
+  const now=new Date();
+  const start=new Date(now.getFullYear(),0,0);
+  const dayOfYear=Math.floor((now-start)/86400000);
+  return MOTIVATION_QUOTES[dayOfYear % MOTIVATION_QUOTES.length];
+}
+
+/* === SINAVA KALAN GÜN === */
+function daysUntilExam(){
+  const examDate=(state.setup&&state.setup.examDate)||DEFAULT_EXAM_DATE;
+  const today=new Date();today.setHours(0,0,0,0);
+  const exam=new Date(examDate);exam.setHours(0,0,0,0);
+  return Math.round((exam-today)/86400000);
+}
+
+/* === VARSAYILAN LİNKLER === */
 const DEFAULT_PLAYLISTS = [
   { subject:"Matematik", label:"0 DAN MATEMATİK KAMPI", url:"https://www.youtube.com/playlist?list=PLVoSZ0D0CB3qvNYQld-Y2RGC6Xgn1x3mP" },
   { subject:"Paragraf",  label:"Paragrafın Ritmi Kampı", url:"https://www.youtube.com/playlist?list=PLT5Y-Sr8yifs" },
@@ -385,12 +452,12 @@ const DEFAULT_PLAYLISTS = [
   { subject:"Coğrafya-1",label:"TYT Coğrafya", url:"https://www.youtube.com/playlist?list=PLnBnugScc-7Lnnh4bZMz8QVyIYSXtULr_" },
   { subject:"Coğrafya-2",label:"TYT Coğrafya", url:"https://www.youtube.com/playlist?list=PLnBnugScc-7Lnnh4bZMz8QVyIYSXtULr_" }
 ];
-
 const OGM_MAIN="https://ogmmateryal.eba.gov.tr/";
 const OGM_KONU_OZET="https://ogmmateryal.eba.gov.tr/mebi-konu-ozeti-kitaplari";
 const OGM_DENEME="https://ogmmateryal.eba.gov.tr/mebi-yks-denemeleri";
 const MEBİ_CONTENT="https://mebi.eba.gov.tr/student/home/content?q=";
 
+/* === ROZETLER === */
 const BADGE_DEFS=[
   {id:"first_lesson",icon:"🎯",label:"İlk Adım",desc:"İlk konunu tamamladın",cat:"Konu",check:s=>s.doneLessons>=1},
   {id:"lesson_10",icon:"📚",label:"Kitap Kurdu",desc:"10 konu tamamlandı",cat:"Konu",check:s=>s.doneLessons>=10},
@@ -418,6 +485,7 @@ const BADGE_DEFS=[
   {id:"rep_5",icon:"🔁",label:"Tekrar Ustası",desc:"5 konu tekrarı",cat:"Tekrar",check:()=>state.repetitions.length>=5}
 ];
 
+/* === MÜFREDAT === */
 const CURRICULUM={
   "TYT":{
     "Türkçe":["Sözcükte Anlam","Cümlede Anlam","Paragraf","Sözel Mantık"],
@@ -454,7 +522,6 @@ const CURRICULUM={
 };
 
 const EXAM_LABELS={"TYT":"TYT","AYT-SAY":"AYT Sayısal","AYT-EA":"AYT Eşit Ağırlık","AYT-SÖZ":"AYT Sözel","YDT":"YDT / Dil"};
-
 const SUBJECT_WEIGHTS={
   "TYT::Türkçe":3.6,"TYT::Matematik":3.6,
   "TYT::Tarih":1.0,"TYT::Coğrafya":1.0,"TYT::Felsefe":0.8,"TYT::Din Kültürü":0.6,
@@ -464,7 +531,6 @@ const SUBJECT_WEIGHTS={
   "AYT-SÖZ::Coğrafya-2":1.2,"AYT-SÖZ::Felsefe Grubu":1.5,"AYT-SÖZ::Din Kültürü":1.0,
   "YDT::İngilizce":3.0
 };
-
 const QUESTION_COUNT={"Matematik":30,"Türkçe":30,"Fizik":20,"Kimya":20,"Biyoloji":20,"İngilizce":25,"Edebiyat":20,"Felsefe Grubu":20};
 const AYLAR=["OCAK","ŞUBAT","MART","NİSAN","MAYIS","HAZİRAN","TEMMUZ","AĞUSTOS","EYLÜL","EKİM","KASIM","ARALIK"];
 const GUNLER=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
@@ -542,7 +608,7 @@ function checkBadges(){
   return newOnes;
 }
 
-/* ============ PROGRAM ============ */
+/* === PROGRAM === */
 function computeAytStart(start){
   const m=start.getMonth();
   if(m>=11)return new Date(start);
@@ -604,7 +670,7 @@ function buildProgram(){
 }
 function getRepetitionsForDay(dayIso){return state.repetitions.filter(r=>r.targetDate===dayIso);}
 
-/* ============ KAYNAK ============ */
+/* === KAYNAK === */
 function mebiUrl(e,s,t){return MEBİ_CONTENT+encodeURIComponent(t).replace(/'/g,"%27");}
 function ogmUrl(){return OGM_MAIN;}
 function ogmOzetUrl(){return OGM_KONU_OZET;}
@@ -631,7 +697,7 @@ function resourceChips(c){
     <a class="${ytClass}" target="_blank" rel="noopener" href="${ytUrl(c.examType,c.subject,c.topic)}">${ytLabel}</a>`;
 }
 
-/* ============ İSTATİSTİK ============ */
+/* === İSTATİSTİK === */
 function computeStats(){
   let totalLessons=0,doneLessons=0,tytT=0,tytD=0,aytT=0,aytD=0,questions=0,hours=0,paragraph=0;
   state.program.forEach(day=>{
@@ -666,7 +732,7 @@ function weakTopics(){
   return Object.values(map).map(x=>{const tot=x.c+x.w+x.e;return Object.assign(x,{total:tot,rate:tot?Math.round(x.c/tot*100):0});}).sort((a,b)=>a.rate-b.rate);
 }
 
-/* ============ POMODORO ============ */
+/* === POMODORO === */
 let pomoRuntime={running:false,seconds:25*60,mode:"work",interval:null};
 function pomoWorkSec(){return (state.pomodoro.workMin||25)*60;}
 function pomoBreakSec(){return (state.pomodoro.breakMin||5)*60;}
@@ -794,7 +860,7 @@ function ensureNotifyPermission(){
   try{if(window.Notification&&Notification.permission==="default")Notification.requestPermission().catch(()=>{});}catch(e){}
 }
 
-/* ============ RENDER ALL ============ */
+/* === RENDER ALL === */
 function renderAll(){
   const s=computeStats();
   renderHome(s);
@@ -808,7 +874,7 @@ function renderAll(){
   checkBadges();
 }
 
-/* ============ ANA SAYFA ============ */
+/* === ANA SAYFA === */
 function renderHome(stats){
   stats=stats||computeStats();
   const today=new Date();
@@ -820,6 +886,10 @@ function renderHome(stats){
   const tomorrowName=GUNLER[tomorrow.getDay()];
   const todayName=GUNLER[today.getDay()];
   const el=$("#view-home");
+  const daysLeft=daysUntilExam();
+  const quote=getDailyQuote();
+  const examDateStr=(state.setup&&state.setup.examDate)||DEFAULT_EXAM_DATE;
+  const examDateObj=fromIso(examDateStr);
 
   if(!state.program.length){
     el.innerHTML=`
@@ -828,13 +898,17 @@ function renderHome(stats){
           <div class="hero-hi">HOŞ GELDİN</div>
           <div class="hero-name">DEK AI ile YKS'ye hazırlan 🎓</div>
           <div class="hero-sub">Sınav türünü seç, hedeflerini belirt. Sistem tüm dersleri, konuları, kaynakları, tekrarları ve paragraf çalışmalarını otomatik planlar.</div>
-          <div class="hero-stats">
-            <div class="hero-stat"><span class="hv">${BADGE_DEFS.length}</span><span class="hl">Rozet</span></div>
-            <div class="hero-stat"><span class="hv">5</span><span class="hl">Sınav Türü</span></div>
-            <div class="hero-stat"><span class="hv">∞</span><span class="hl">Kişiselleştirme</span></div>
+          <div class="exam-countdown ${daysLeft<=30?"urgent":""}">
+            <div class="ec-num">${daysLeft}</div>
+            <div class="ec-txt">gün kaldı<small>${examDateObj.getDate()} ${AYLAR[examDateObj.getMonth()]} ${examDateObj.getFullYear()}</small></div>
           </div>
         </div>
         <div class="hero-emoji">🚀</div>
+      </div>
+      <div class="motiv-card">
+        <div class="mv-icon">💡</div>
+        <div class="mv-txt">${esc(quote)}</div>
+        <div class="mv-badge">Günün Sözü</div>
       </div>
       <div class="panel empty">
         <div class="big">🎯</div>
@@ -845,12 +919,9 @@ function renderHome(stats){
     return;
   }
 
-  // Bugünün istatistikleri
   const todayCards=todayDay?todayDay.cards.filter(c=>c.type==="lesson"):[];
   const todayDone=todayCards.filter(c=>c.done).length;
   const todayTotal=todayCards.length;
-
-  // Bugünün kartları için render HTML (review + paragraph + repetition)
   const todayReps=getRepetitionsForDay(todayIso).map(r=>({
     id:"rep-"+r.id,time:"16:00",type:"repetition",examType:r.examType,
     subject:r.subject,topic:r.topic,done:!!r.done
@@ -868,8 +939,12 @@ function renderHome(stats){
             ? `Bugün <b style="color:#ffb066">${todayTotal} ders kartın</b> var. ${todayDone>0?`${todayDone} tanesini tamamladın.`:"Hadi başlayalım!"}`
             : "Bugün için planlanmış ders yok — serbest çalışma zamanı!"}
         </div>
+        <div class="exam-countdown ${daysLeft<=30?"urgent":""}">
+          <div class="ec-num">${daysLeft}</div>
+          <div class="ec-txt">gün kaldı<small>${examDateObj.getDate()} ${AYLAR[examDateObj.getMonth()]} ${examDateObj.getFullYear()}</small></div>
+        </div>
         <div class="hero-stats">
-          <div class="hero-stat"><span class="hv">${stats.overall}%</span><span class="hl">Genel İlerleme</span></div>
+          <div class="hero-stat"><span class="hv">${stats.overall}%</span><span class="hl">Genel</span></div>
           <div class="hero-stat"><span class="hv">${stats.streak}</span><span class="hl">Günlük Seri</span></div>
           <div class="hero-stat"><span class="hv">${state.badges.length}</span><span class="hl">Rozet</span></div>
           <div class="hero-stat"><span class="hv">${state.pomodoro.count}</span><span class="hl">Bugünkü Pomodoro</span></div>
@@ -878,43 +953,31 @@ function renderHome(stats){
       <div class="hero-emoji">${todayDone===todayTotal&&todayTotal>0?"🎉":"📚"}</div>
     </div>
 
+    <!-- MOTİVASYON -->
+    <div class="motiv-card">
+      <div class="mv-icon">💡</div>
+      <div class="mv-txt">${esc(quote)}</div>
+      <div class="mv-badge">Günün Sözü</div>
+    </div>
+
     <!-- POMODORO -->
     <div id="pomodoroHost"></div>
 
-    <!-- HIZLI ERİŞİM İKONLARI -->
+    <!-- HIZLI ERİŞİM -->
     <div class="section-head"><h2>⚡ Hızlı Erişim</h2><div class="sh-line"></div></div>
     <div class="quick-grid">
-      <div class="quick-card" data-nav="program">
-        <div class="qi">📅</div>
-        <div class="qt">Çalışma Programı</div>
-        <div class="qs">Günlük plan</div>
-      </div>
-      <div class="quick-card" data-nav="progress">
-        <div class="qi">📊</div>
-        <div class="qt">İlerleme</div>
-        <div class="qs">%${stats.overall} tamamlandı</div>
-      </div>
-      <div class="quick-card" data-nav="badges">
-        <div class="qi">🏆</div>
-        <div class="qt">Rozetler</div>
-        <div class="qs">${state.badges.length} / ${BADGE_DEFS.length} kazandın</div>
-        ${state.badges.length>0?`<div class="qbadge">${state.badges.length} kazanıldı</div>`:""}
-      </div>
-      <div class="quick-card" data-nav="analytics">
-        <div class="qi">📈</div>
-        <div class="qt">Grafikler</div>
-        <div class="qs">Görsel analiz</div>
-      </div>
-      <div class="quick-card" data-nav="deneme">
-        <div class="qi">🧪</div>
-        <div class="qt">Denemeler</div>
-        <div class="qs">${state.denemeler.length} deneme</div>
-      </div>
-      <div class="quick-card" data-nav="resources">
-        <div class="qi">🔗</div>
-        <div class="qt">Kaynaklar</div>
-        <div class="qs">MEBİ · ÖGM · YouTube</div>
-      </div>
+      <div class="quick-card" data-nav="program"><div class="qi">📅</div>
+        <div class="qt">Çalışma Programı</div><div class="qs">Günlük plan</div></div>
+      <div class="quick-card" data-nav="progress"><div class="qi">📊</div>
+        <div class="qt">İlerleme</div><div class="qs">%${stats.overall} tamamlandı</div></div>
+      <div class="quick-card" data-nav="badges"><div class="qi">🏆</div>
+        <div class="qt">Rozetler</div><div class="qs">${state.badges.length} / ${BADGE_DEFS.length}</div></div>
+      <div class="quick-card" data-nav="analytics"><div class="qi">📈</div>
+        <div class="qt">Grafikler</div><div class="qs">Görsel analiz</div></div>
+      <div class="quick-card" data-nav="deneme"><div class="qi">🧪</div>
+        <div class="qt">Denemeler</div><div class="qs">${state.denemeler.length} deneme</div></div>
+      <div class="quick-card" data-nav="resources"><div class="qi">🔗</div>
+        <div class="qt">Kaynaklar</div><div class="qs">MEBİ · ÖGM · YouTube</div></div>
     </div>
 
     <!-- GENEL İSTATİSTİKLER -->
@@ -942,17 +1005,16 @@ function renderHome(stats){
       : `<div class="panel empty" style="padding:40px 20px">
           <div class="big" style="font-size:32px">☕</div>
           <h3 style="font-size:14px">Bugün için planlanmış kart yok</h3>
-          <p style="font-size:12px">Programın bitti veya bugün için ders atanmadı. Yarının önizlemesine göz at.</p>
+          <p style="font-size:12px">Programın bitti veya bugün için ders atanmadı.</p>
         </div>`}
 
-    <!-- YARININ ÖNİZLEMESİ -->
     ${tomorrowDay?`
       <div class="section-head">
         <h2>🌅 Yarının Planı (${tomorrowName})</h2>
         <div class="sh-line"></div>
       </div>
       <div class="panel" style="margin-bottom:10px">
-        <div style="font-size:12px;color:var(--muted);margin-bottom:12px">${tomorrow.getDate()} ${AYLAR[tomorrow.getMonth()]} ${tomorrow.getFullYear()} · ${tomorrowDay.cards.filter(c=>c.type==="lesson").length} ders kartı</div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:12px">${tomorrow.getDate()} ${AYLAR[tomorrow.getMonth()]} ${tomorrow.getFullYear()}</div>
         <div class="rowlist">
           ${tomorrowDay.cards.filter(c=>c.type==="lesson").map(c=>`
             <div class="row">
@@ -963,18 +1025,9 @@ function renderHome(stats){
               </div>
               <span class="badge ${c.phase==="TYT"?"warn":"ok"}">${esc(EXAM_LABELS[c.examType]||c.examType)}</span>
             </div>`).join("")}
-          <div class="row">
-            <span style="font-size:16px">🔄</span>
-            <div class="grow"><div class="t">Dünün Tekrarı</div><div class="s">12:00 – 13:00</div></div>
-          </div>
-          <div class="row">
-            <span style="font-size:16px">📖</span>
-            <div class="grow"><div class="t">Günlük 20 Paragraf</div><div class="s">15:00</div></div>
-          </div>
         </div>
       </div>`:""}
 
-    <!-- SON KAZANILAN ROZETLER -->
     ${state.badges.length>0?`
       <div class="section-head">
         <h2>🏆 Son Kazandığın Rozetler</h2>
@@ -991,12 +1044,10 @@ function renderHome(stats){
         }).join("")}
       </div>`:""}
   `;
-
-  // Pomodoro'yu tekrar render et (artık DOM'da #pomodoroHost var)
   renderPomodoro();
 }
 
-/* ============ CARD HTML ============ */
+/* === CARD HTML === */
 function cardHTML(c,dayIso){
   if(c.type==="review"){
     const items=c.items&&c.items.length
@@ -1059,6 +1110,7 @@ function cardHTML(c,dayIso){
         <button class="btn sm ${c.done?"ok":"todo"}" data-act="toggle" data-day="${dayIso}" data-card="${c.id}">${c.done?"☑ Tamamlandı":"Tamamlandı"}</button>
       </div></article>`;
   }
+  /* LESSON CARD */
   const custom=state.resources[resKey(c)]||[];
   const customChips=custom.map((r,i)=>
     `<a class="chip" target="_blank" rel="noopener" href="${esc(r.url)}">🔗 ${esc(r.label||"Kaynak")}
@@ -1074,6 +1126,7 @@ function cardHTML(c,dayIso){
     <div class="res">
       ${resourceChips(c)}
       ${customChips}
+      <button class="chip edit-chip" data-act="edit-lesson" data-day="${dayIso}" data-card="${c.id}">✏️ Dersi Değiştir</button>
       <button class="chip" data-act="addres" data-day="${dayIso}" data-card="${c.id}">＋ Kaynak</button>
     </div>
     <div class="actions">
@@ -1083,7 +1136,122 @@ function cardHTML(c,dayIso){
     </div></article>`;
 }
 
-/* ============ PROGRAM VIEW ============ */
+/* === DERS DEĞİŞTİRME MODALI === */
+function openEditLesson(dayIso, cardId){
+  const day=state.program.find(d=>d.iso===dayIso);
+  if(!day){toast("Gün bulunamadı");return;}
+  const card=day.cards.find(c=>c.id===cardId);
+  if(!card||card.type!=="lesson"){toast("Bu kart değiştirilemez");return;}
+
+  // Kullanıcının sınav türlerinden dersleri topla (yoksa tüm CURRICULUM)
+  const userTypes=(state.setup&&state.setup.examTypes)||["TYT"];
+  const subjectPool=[];
+  userTypes.forEach(t=>{
+    const block=CURRICULUM[t];
+    if(!block)return;
+    Object.keys(block).forEach(s=>{if(!subjectPool.some(x=>x.subject===s)) subjectPool.push({subject:s, examType:t});});
+  });
+  if(!subjectPool.length){
+    Object.entries(CURRICULUM).forEach(([t,block])=>{
+      Object.keys(block).forEach(s=>{if(!subjectPool.some(x=>x.subject===s)) subjectPool.push({subject:s, examType:t});});
+    });
+  }
+
+  // İlk render için mevcut değerlerin türünü bul
+  const curType = userTypes.includes(card.examType) ? card.examType : (userTypes[0]||"TYT");
+  const curTopics = (CURRICULUM[card.examType] && CURRICULUM[card.examType][card.subject]) || [];
+
+  openModal(`✏️ Dersi Değiştir — ${esc(card.time)}`, `
+    <div class="edit-preview">
+      <div class="ep-lbl">Mevcut Kart</div>
+      <div class="ep-val">${esc(EXAM_LABELS[card.examType]||card.examType)} · ${esc(card.subject)}</div>
+      <div class="ep-sub">${esc(card.topic)}</div>
+    </div>
+
+    <div class="form-grid">
+      <div class="field full">
+        <label>Sınav Türü</label>
+        <select id="el_exam">
+          ${Object.keys(EXAM_LABELS).map(k=>`<option value="${k}" ${k===card.examType?"selected":""}>${esc(EXAM_LABELS[k])}</option>`).join("")}
+        </select>
+      </div>
+      <div class="field full">
+        <label>Ders</label>
+        <select id="el_subject"></select>
+      </div>
+      <div class="field full">
+        <label>Konu</label>
+        <select id="el_topic"></select>
+      </div>
+      <div class="field full">
+        <label>Soru Sayısı</label>
+        <input type="number" id="el_q" min="5" max="100" value="${card.q||20}">
+      </div>
+    </div>
+
+    <div class="info-box">
+      <span>ℹ️</span>
+      <div>Bu değişiklik sadece <b>bu günün bu kartını</b> etkiler. Diğer günlerdeki program aynı kalır.</div>
+    </div>
+
+    <div class="modal-foot">
+      <button class="btn ghost" data-close>İptal</button>
+      <button class="btn blue" id="el_reset">↺ Sıfırla</button>
+      <button class="btn primary" id="el_save">💾 Kaydet</button>
+    </div>
+  `, { wide:true });
+
+  const examSel=$("#el_exam");
+  const subjSel=$("#el_subject");
+  const topicSel=$("#el_topic");
+
+  function populateSubjects(){
+    const t=examSel.value;
+    const block=CURRICULUM[t]||{};
+    const subjects=Object.keys(block);
+    subjSel.innerHTML=subjects.map(s=>`<option value="${esc(s)}" ${s===card.subject?"selected":""}>${esc(s)}</option>`).join("");
+    populateTopics();
+  }
+  function populateTopics(){
+    const t=examSel.value;
+    const s=subjSel.value;
+    const block=CURRICULUM[t]||{};
+    const topics=block[s]||[];
+    topicSel.innerHTML=topics.map(tp=>`<option value="${esc(tp)}" ${tp===card.topic?"selected":""}>${esc(tp)}</option>`).join("")
+      || `<option value="">— Konu yok —</option>`;
+  }
+
+  examSel.onchange=populateSubjects;
+  subjSel.onchange=populateTopics;
+  populateSubjects();
+
+  $("#el_save").onclick=()=>{
+    const newExam=examSel.value;
+    const newSubj=subjSel.value;
+    const newTopic=topicSel.value;
+    const newQ=clamp(Number($("#el_q").value)||15,5,100);
+    if(!newSubj||!newTopic){toast("Ders ve konu seçilmeli");return;}
+    // Kartı güncelle
+    card.examType=newExam;
+    card.phase=newExam==="TYT"?"TYT":"AYT";
+    card.subject=newSubj;
+    card.topic=newTopic;
+    card.q=newQ;
+    save();closeModal();renderAll();
+    toast(`✓ Kart güncellendi: ${newSubj} – ${newTopic}`,"green");
+  };
+
+  $("#el_reset").onclick=()=>{
+    examSel.value=card.examType;
+    populateSubjects();
+    subjSel.value=card.subject;
+    populateTopics();
+    topicSel.value=card.topic;
+    $("#el_q").value=card.q||20;
+  };
+}
+
+/* === PROGRAM VIEW === */
 function dayHTML(day){
   const d=fromIso(day.iso);
   const today=day.iso===iso(new Date());
@@ -1127,7 +1295,7 @@ function statBox(label,val,pct){
     <div class="bar"><i style="width:${clamp(pct,0,100)}%"></i></div></div>`;
 }
 
-/* ============ PROGRESS ============ */
+/* === PROGRESS === */
 function renderProgress(){
   const s=computeStats();const w=weakTopics();
   const el=$("#view-progress");
@@ -1156,7 +1324,7 @@ function renderProgress(){
     <div class="panel" style="margin-bottom:18px"><h2>Zayıf Konu Analizi</h2><div class="rowlist">${weakHTML}</div></div>`;
 }
 
-/* ============ ANALYTICS ============ */
+/* === ANALYTICS === */
 function renderAnalytics(){
   const el=$("#view-analytics");
   el.innerHTML=`
@@ -1175,19 +1343,16 @@ function renderAnalytics(){
 }
 function drawDailyChart(){
   const cv=$("#chDaily");if(!cv)return;
-  const dpr=window.devicePixelRatio||1;
-  const W=cv.clientWidth,H=220;
+  const dpr=window.devicePixelRatio||1;const W=cv.clientWidth,H=220;
   cv.width=W*dpr;cv.height=H*dpr;cv.style.height=H+"px";
   const ctx=cv.getContext("2d");ctx.scale(dpr,dpr);ctx.clearRect(0,0,W,H);
   const days=[];const today=new Date();
   for(let i=13;i>=0;i--){const d=new Date(today);d.setDate(d.getDate()-i);days.push(iso(d));}
-  const data=days.map(dIso=>{
-    const dt=state.tests.filter(t=>t.date===dIso);
+  const data=days.map(dIso=>{const dt=state.tests.filter(t=>t.date===dIso);
     return{label:GUNLER_KISA[fromIso(dIso).getDay()],
       correct:dt.reduce((a,t)=>a+(t.correct||0),0),
       wrong:dt.reduce((a,t)=>a+(t.wrong||0),0),
-      empty:dt.reduce((a,t)=>a+(t.empty||0),0)};
-  });
+      empty:dt.reduce((a,t)=>a+(t.empty||0),0)};});
   const maxV=Math.max(1,...data.map(d=>Math.max(d.correct,d.wrong,d.empty)));
   const padL=24,padR=8,padT=10,padB=22;
   const innerW=W-padL-padR,innerH=H-padT-padB;
@@ -1223,8 +1388,7 @@ function drawSubjectBars(){
 }
 function drawDenemeChart(){
   const cv=$("#chDeneme");if(!cv)return;
-  const dpr=window.devicePixelRatio||1;
-  const W=cv.clientWidth,H=220;
+  const dpr=window.devicePixelRatio||1;const W=cv.clientWidth,H=220;
   cv.width=W*dpr;cv.height=H*dpr;cv.style.height=H+"px";
   const ctx=cv.getContext("2d");ctx.scale(dpr,dpr);ctx.clearRect(0,0,W,H);
   const list=state.denemeler.slice().sort((a,b)=>a.date.localeCompare(b.date));
@@ -1247,8 +1411,7 @@ function drawDenemeChart(){
 }
 function drawPomoChart(){
   const cv=$("#chPomo");if(!cv)return;
-  const dpr=window.devicePixelRatio||1;
-  const W=cv.clientWidth,H=220;
+  const dpr=window.devicePixelRatio||1;const W=cv.clientWidth,H=220;
   cv.width=W*dpr;cv.height=H*dpr;cv.style.height=H+"px";
   const ctx=cv.getContext("2d");ctx.scale(dpr,dpr);ctx.clearRect(0,0,W,H);
   const days=[];const today=new Date();
@@ -1280,12 +1443,10 @@ function drawPomoChart(){
   });
 }
 
-/* ============ BADGES ============ */
+/* === BADGES === */
 function renderBadges(){
   const el=$("#view-badges");
-  const earned=state.badges;
-  const earnedCount=earned.length;
-  const total=BADGE_DEFS.length;
+  const earned=state.badges;const earnedCount=earned.length;const total=BADGE_DEFS.length;
   const byCat={};
   BADGE_DEFS.forEach(def=>{if(!byCat[def.cat])byCat[def.cat]=[];byCat[def.cat].push(def);});
   const sectionsHTML=Object.entries(byCat).map(([cat,defs])=>{
@@ -1316,7 +1477,7 @@ function renderBadges(){
     ${sectionsHTML}`;
 }
 
-/* ============ DENEME ============ */
+/* === DENEME === */
 const DENEME_SCHEMA={
   "TYT":[["Türkçe",40],["Sosyal Bilimler",20],["Temel Matematik",40],["Fen Bilimleri",20]],
   "AYT-SAY":[["Matematik",40],["Fizik",14],["Kimya",13],["Biyoloji",13]],
@@ -1389,7 +1550,7 @@ function renderDeneme(){
   });
 }
 
-/* ============ RESOURCES ============ */
+/* === RESOURCES === */
 function renderResources(){
   const el=$("#view-resources");
   const keys=Object.keys(state.resources).filter(k=>(state.resources[k]||[]).length);
@@ -1439,7 +1600,7 @@ function renderResources(){
     <div class="panel"><h2>Kaynaklarım</h2><div class="rowlist">${rows}</div></div>`;
 }
 
-/* ============ SETTINGS ============ */
+/* === SETTINGS === */
 function renderSettings(){
   const el=$("#view-settings");
   const setup=state.setup||{};
@@ -1447,7 +1608,7 @@ function renderSettings(){
   el.innerHTML=`
     <div class="panel" style="margin-bottom:18px;background:linear-gradient(135deg,#fff7ed,#ffffff);border-color:var(--acc-line)">
       <h2>📁 Veri Yönetimi</h2>
-      <div class="note" style="margin-bottom:14px">JSON yedekle, PDF raporla, CSV indir. Başka cihaza taşımak için JSON yedeğini yükle.</div>
+      <div class="note" style="margin-bottom:14px">JSON yedekle, PDF raporla, CSV indir.</div>
       <div class="dl-grid">
         <div class="dl-card" data-act="dl-json"><div class="dl-icon">📥</div>
           <div class="dl-t">JSON Yedek İndir</div><div class="dl-s">Tüm veriler (${sizeKB} KB)</div></div>
@@ -1515,7 +1676,7 @@ function renderSettings(){
     save();renderAll();toast("Sıfırlandı");
   };
   $("#resetAll").onclick=()=>{
-    if(!confirm("⚠️ TÜM veriler silinecek. Önce JSON yedek almayı düşündün mü?"))return;
+    if(!confirm("⚠️ TÜM veriler silinecek. Emin misin?"))return;
     localStorage.removeItem(STORE_KEY);
     state=structuredClone(DEFAULT_STATE);
     state.playlists=seedPlaylists();
@@ -1523,22 +1684,19 @@ function renderSettings(){
   };
 }
 
-/* ============ VERİ YÖNETİMİ ============ */
+/* === VERİ YÖNETİMİ === */
 function downloadFile(filename,content,mime){
   const blob=content instanceof Blob?content:new Blob([content],{type:mime||"application/octet-stream"});
   const url=URL.createObjectURL(blob);
-  const a=document.createElement("a");
-  a.href=url;a.download=filename;
+  const a=document.createElement("a");a.href=url;a.download=filename;
   document.body.appendChild(a);a.click();document.body.removeChild(a);
   setTimeout(()=>URL.revokeObjectURL(url),100);
 }
 function exportJSON(){
-  const data={
-    _meta:{app:"DEK AI",version:state.version,exportedAt:new Date().toISOString()},
+  const data={_meta:{app:"DEK AI",version:state.version,exportedAt:new Date().toISOString()},
     setup:state.setup,program:state.program,tests:state.tests,denemeler:state.denemeler,
     resources:state.resources,notes:state.notes,steps:state.steps,playlists:state.playlists,
-    repetitions:state.repetitions,badges:state.badges,pomodoro:state.pomodoro
-  };
+    repetitions:state.repetitions,badges:state.badges,pomodoro:state.pomodoro};
   downloadFile(`dekai-yedek-${iso(new Date())}.json`,JSON.stringify(data,null,2),"application/json");
   toast("📥 JSON yedek indirildi");
 }
@@ -1550,18 +1708,15 @@ function importJSON(file){
       const data=JSON.parse(e.target.result);
       if(!data||typeof data!=="object")throw new Error("Geçersiz");
       if(!confirm("Mevcut verilerin üzerine yazılacak. Devam?"))return;
-      const safe={
-        version:3,setup:data.setup||null,program:data.program||[],tests:data.tests||[],
+      const safe={version:3,setup:data.setup||null,program:data.program||[],tests:data.tests||[],
         denemeler:data.denemeler||[],resources:data.resources||{},notes:data.notes||{},
         steps:data.steps||{},
         playlists:(Array.isArray(data.playlists)&&data.playlists.length)?data.playlists:seedPlaylists(),
         repetitions:data.repetitions||[],badges:data.badges||[],
         pomodoro:Object.assign({},DEFAULT_STATE.pomodoro,data.pomodoro||{}),
-        settings:state.settings,ui:state.ui
-      };
+        settings:state.settings,ui:state.ui};
       state=Object.assign(structuredClone(DEFAULT_STATE),safe);
-      save();renderAll();
-      toast("✅ Yedek geri yüklendi","green");
+      save();renderAll();toast("✅ Yedek geri yüklendi","green");
     }catch(err){console.error(err);toast("❌ Dosya okunamadı");}
   };
   reader.onerror=()=>toast("❌ Okunamadı");
@@ -1586,6 +1741,7 @@ function exportPDF(){
   const s=computeStats();const w=weakTopics();
   const now=new Date();const setup=state.setup||{};
   const examTypes=(setup.examTypes||[]).map(t=>EXAM_LABELS[t]).join(" + ")||"Program yok";
+  const daysLeft=daysUntilExam();
   const html=`<!DOCTYPE html><html lang="tr"><head><meta charset="utf-8"><title>DEK AI Rapor</title>
   <style>body{font-family:Inter,Arial,sans-serif;color:#0a1730;padding:20px;max-width:900px;margin:0 auto;line-height:1.5}
   h1{font-size:22px;margin:0 0 4px}h2{font-size:13px;letter-spacing:.7px;text-transform:uppercase;color:#c2410c;margin:26px 0 10px;border-bottom:2px solid #e3e8f0;padding-bottom:6px}
@@ -1593,6 +1749,9 @@ function exportPDF(){
   .brand-logo{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,#ff8a1f,#ff5e00);color:#fff;display:grid;place-items:center;font-weight:800}
   .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.box{border:1px solid #e3e8f0;border-radius:10px;padding:12px;background:#fbfdff}
   .box .lbl{font-size:10px;color:#7a88a6;text-transform:uppercase;font-weight:700}.box .val{font-size:20px;font-weight:800;margin-top:4px}
+  .countdown{background:#fff7ed;border:1px solid #ffd9a8;border-radius:12px;padding:16px;margin-bottom:16px;text-align:center}
+  .countdown .cn{font-size:36px;font-weight:800;color:#c2410c;line-height:1}
+  .countdown .cl{font-size:12px;color:#7a88a6;margin-top:4px;font-weight:700;letter-spacing:.5px}
   table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:16px}th,td{border:1px solid #e3e8f0;padding:7px 10px;text-align:left}
   th{background:#f7f9fc;font-weight:700}.row-ok{color:#15803d;font-weight:700}.row-warn{color:#b45309;font-weight:700}.row-bad{color:#b91c1c;font-weight:700}
   .footer{margin-top:36px;font-size:11px;color:#94a3b8;text-align:center;border-top:1px solid #e3e8f0;padding-top:14px}
@@ -1602,6 +1761,10 @@ function exportPDF(){
     <h1 style="margin:0">DEK AI – YKS İlerleme Raporu</h1>
     <div class="sub" style="margin:0">${now.getDate()} ${AYLAR[now.getMonth()]} ${now.getFullYear()} · ${examTypes}</div>
   </div></div>
+  <div class="countdown">
+    <div class="cn">${daysLeft}</div>
+    <div class="cl">GÜN KALDI</div>
+  </div>
   <h2>📊 Genel İstatistikler</h2>
   <div class="grid">
     <div class="box"><div class="lbl">Genel İlerleme</div><div class="val">%${s.overall}</div></div>
@@ -1636,7 +1799,7 @@ function exportPDF(){
   toast("📄 PDF rapor açıldı");
 }
 
-/* ============ MODAL & AI ============ */
+/* === MODAL === */
 function openModal(title,body,opts={}){
   const m=$("#modal");
   m.className="modal"+(opts.wide?" wide":"");
@@ -1749,8 +1912,7 @@ function openStudy(dayIso,cardId,isRep){
           liveCard.done=true;
           if(isRep){const r=state.repetitions.find(x=>"rep-"+x.id===cardId);if(r)r.done=true;}
           save();toast("Tebrikler! Konu tamamlandı ✓","green");
-          checkBadges();
-          renderAll();
+          checkBadges();renderAll();
         }
       }
     });
@@ -1760,7 +1922,7 @@ function openStudy(dayIso,cardId,isRep){
   const gen=$("#aiGen");
   if(gen)gen.onclick=async()=>{
     gen.disabled=true;gen.textContent="Üretiliyor…";
-    const prompt=`Sen YKS (${label}) için deneyimli bir öğretmensin.\nDers: ${card.subject}\nKonu: ${card.topic}\nBu konu için kısa ve yoğun bir çalışma özeti hazırla:\n1) Kısa konu anlatımı\n2) Formüller/kavramlar\n3) ÖSYM tarzı noktalar\n4) Sık hatalar\n5) 3 örnek soru\nTürkçe yaz.`;
+    const prompt=`Sen YKS (${label}) için deneyimli bir öğretmensin.\nDers: ${card.subject}\nKonu: ${card.topic}\nKısa ve yoğun çalışma özeti:\n1) Konu anlatımı\n2) Formüller\n3) ÖSYM noktaları\n4) Sık hatalar\n5) 3 örnek soru\nTürkçe yaz.`;
     const out=await callGemini(prompt,false);
     $("#aiBox").textContent=out||"AI yanıtı alınamadı.";
     gen.disabled=false;gen.textContent="✨ Özeti Üret";
@@ -1948,20 +2110,15 @@ function generate(){
   save();renderAll();
 }
 
-/* ============ EVENTS ============ */
+/* === EVENTS === */
 function findCard(dayIso,cardId){
   const day=state.program.find(d=>d.iso===dayIso);
   return day?day.cards.find(c=>c.id===cardId):null;
 }
 document.addEventListener("click",ev=>{
-  // Quick nav icons
   const qc=ev.target.closest("[data-nav]");
-  if(qc && !qc.dataset.act){
-    switchView(qc.dataset.nav);
-    return;
-  }
+  if(qc && !qc.dataset.act){switchView(qc.dataset.nav);return;}
 
-  // Download buttons
   const dlBtn=ev.target.closest("[data-act^='dl-'],[data-act='up-json']");
   if(dlBtn){
     const a=dlBtn.dataset.act;
@@ -2009,6 +2166,7 @@ document.addEventListener("click",ev=>{
     state.repetitions=state.repetitions.filter(x=>"rep-"+x.id!==cardId);
     save();renderAll();toast("Tekrar kaldırıldı");return;
   }
+  if(act==="edit-lesson"){openEditLesson(dayIso,cardId);return;}
   const card=findCard(dayIso,cardId);
   const repCard=findRepetitionCard(dayIso,cardId);
   const activeCard=card||repCard;
@@ -2048,7 +2206,7 @@ document.addEventListener("drop",e=>{
   if(f&&f.name.toLowerCase().endsWith(".json"))importJSON(f);
 });
 
-/* ============ VIEW SWITCH ============ */
+/* === VIEW SWITCH === */
 const VIEW_TITLES={
   home:["Ana Sayfa","Bugünün planı ve genel durum"],
   program:["Çalışma Programı","Otomatik oluşturulmuş günlük plan"],
@@ -2087,7 +2245,7 @@ $("#btnRebuild").onclick=()=>{
   generate();toast("Program yeniden oluşturuldu");
 };
 
-/* ============ INIT ============ */
+/* === INIT === */
 (function init(){
   ensurePomodoroToday();
   pomoRuntime.seconds=pomoWorkSec();
