@@ -2,7 +2,11 @@
 <html lang="tr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a1730">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="DEK AI">
 <title>DEK AI – YKS Çalışma Programı</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -46,8 +50,6 @@ button{cursor:pointer;border:none;background:none}
 .btn.purple{background:linear-gradient(135deg,#8b5cf6,#7c3aed);border:none;color:#fff}
 .btn.blue{background:linear-gradient(135deg,#3b82f6,#2563eb);border:none;color:#fff}
 .btn.icon{padding:7px 9px;font-size:12px;border-radius:9px;min-width:34px;justify-content:center}
-
-/* HOME */
 .home-hero{background:linear-gradient(135deg,#0a1730 0%,#142a56 60%,#1e3a72 100%);border-radius:20px;padding:26px 28px;color:#fff;margin-bottom:20px;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center;position:relative;overflow:hidden;box-shadow:0 18px 50px -26px rgba(10,23,48,.6)}
 .home-hero::before{content:"";position:absolute;right:-60px;top:-60px;width:280px;height:280px;background:radial-gradient(circle,rgba(255,138,31,.35),transparent 65%);pointer-events:none}
 .home-hero .hero-hi{font-size:11px;font-weight:800;letter-spacing:1.2px;color:#ffb066;text-transform:uppercase;margin-bottom:6px}
@@ -58,24 +60,13 @@ button{cursor:pointer;border:none;background:none}
 .home-hero .hero-stat .hv{font-size:22px;font-weight:800;color:#fff}
 .home-hero .hero-stat .hl{font-size:10.5px;color:#9db1d8;letter-spacing:.4px;text-transform:uppercase;font-weight:700}
 .home-hero .hero-emoji{font-size:72px;line-height:1;filter:drop-shadow(0 10px 20px rgba(0,0,0,.3))}
-/* Sınav sayacı */
-.exam-countdown{
-  background:rgba(255,138,31,.14);border:1px solid rgba(255,138,31,.45);
-  border-radius:12px;padding:10px 14px;display:inline-flex;align-items:center;gap:10px;margin-top:14px;
-}
+.exam-countdown{background:rgba(255,138,31,.14);border:1px solid rgba(255,138,31,.45);border-radius:12px;padding:10px 14px;display:inline-flex;align-items:center;gap:10px;margin-top:14px}
 .exam-countdown .ec-num{font-size:26px;font-weight:800;color:#ffb066;line-height:1;letter-spacing:-.5px}
 .exam-countdown .ec-txt{font-size:11.5px;font-weight:700;color:#fff;letter-spacing:.4px;line-height:1.35}
 .exam-countdown .ec-txt small{display:block;color:#9db1d8;font-weight:600;font-size:10.5px}
 .exam-countdown.urgent{background:rgba(220,38,38,.2);border-color:rgba(220,38,38,.5)}
 .exam-countdown.urgent .ec-num{color:#fca5a5}
-
-/* Motivasyon */
-.motiv-card{
-  background:linear-gradient(135deg,#fff7ed 0%,#ffffff 70%,#fef3c7 100%);
-  border:1px solid var(--acc-line);border-radius:16px;padding:18px 22px;
-  margin-bottom:20px;display:flex;align-items:center;gap:16px;
-  box-shadow:0 10px 30px -18px rgba(255,138,31,.5);position:relative;overflow:hidden;
-}
+.motiv-card{background:linear-gradient(135deg,#fff7ed 0%,#ffffff 70%,#fef3c7 100%);border:1px solid var(--acc-line);border-radius:16px;padding:18px 22px;margin-bottom:20px;display:flex;align-items:center;gap:16px;box-shadow:0 10px 30px -18px rgba(255,138,31,.5);position:relative;overflow:hidden}
 .motiv-card::before{content:"";position:absolute;left:-40px;bottom:-40px;width:160px;height:160px;background:radial-gradient(circle,rgba(255,138,31,.12),transparent 70%);pointer-events:none}
 .motiv-card .mv-icon{font-size:32px;line-height:1;flex:0 0 auto}
 .motiv-card .mv-txt{flex:1;color:var(--text);font-size:14px;font-weight:600;line-height:1.5;font-style:italic;position:relative}
@@ -83,24 +74,18 @@ button{cursor:pointer;border:none;background:none}
 .motiv-card .mv-txt::after{content:'"';color:var(--acc);font-size:24px;font-weight:800;margin-left:4px;font-family:Georgia,serif;vertical-align:-4px}
 .motiv-card .mv-badge{font-size:10.5px;font-weight:800;color:#c2410c;background:#fff;border:1px solid var(--acc-line);padding:4px 9px;border-radius:8px;white-space:nowrap;letter-spacing:.3px}
 @media (max-width:600px){.motiv-card{padding:14px 16px;gap:10px}.motiv-card .mv-icon{font-size:24px}.motiv-card .mv-txt{font-size:13px}}
-
 @media (max-width:700px){.home-hero{grid-template-columns:1fr;text-align:left;padding:22px}.home-hero .hero-emoji{display:none}}
-
 .quick-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px}
 .quick-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px 14px;text-align:center;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;transition:.18s}
 .quick-card:hover{border-color:var(--acc-line);transform:translateY(-2px);box-shadow:0 10px 26px -14px rgba(255,138,31,.5)}
 .quick-card .qi{font-size:30px;line-height:1}
 .quick-card .qt{font-size:12.5px;font-weight:800;color:var(--navy)}
 .quick-card .qs{font-size:10.5px;color:var(--muted);font-weight:600}
-.quick-card .qbadge{margin-top:2px;font-size:10px;font-weight:800;padding:2px 7px;border-radius:8px;background:var(--acc-soft);color:#c2410c;border:1px solid var(--acc-line)}
-
 .section-head{display:flex;align-items:center;gap:12px;margin:22px 0 14px;flex-wrap:wrap}
 .section-head h2{font-size:15px;font-weight:800;color:var(--navy);letter-spacing:.2px}
 .section-head .sh-line{flex:1;height:1px;background:var(--line)}
 .section-head .sh-btn{font-size:12px;font-weight:700;color:#c2410c;cursor:pointer}
 .section-head .sh-btn:hover{text-decoration:underline}
-
-/* POMODORO */
 .pomo-wrap{background:linear-gradient(135deg,#fff 0%,#fffaf3 50%,#fff7ed 100%);border:1px solid var(--acc-line);border-radius:20px;padding:22px 24px;display:grid;grid-template-columns:auto 1fr auto;gap:26px;align-items:center;box-shadow:0 18px 50px -26px rgba(255,138,31,.6);position:relative;overflow:hidden}
 .pomo-wrap::before{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;background:radial-gradient(circle,rgba(255,138,31,.18),transparent 65%);pointer-events:none}
 .pomo-wrap.break-mode{background:linear-gradient(135deg,#f0fdf4 0%,#fff 100%);border-color:#bbf7d0}
@@ -127,7 +112,6 @@ button{cursor:pointer;border:none;background:none}
 .btn-pom.primary{background:linear-gradient(135deg,var(--acc),var(--acc-2));border:none;color:#fff}
 .pom-count-badge{font-size:12.5px;font-weight:800;color:#c2410c;background:#fff;border:1px solid var(--acc-line);padding:9px 14px;border-radius:12px}
 @media (max-width:820px){.pomo-wrap{grid-template-columns:1fr;text-align:center;gap:18px;padding:20px}.pomo-ring{margin:0 auto}.pomo-stats{align-items:center}.pom-btns{justify-content:center}}
-
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px}
 .stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;position:relative;overflow:hidden}
 .stat::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--acc),var(--acc-2))}
@@ -136,7 +120,6 @@ button{cursor:pointer;border:none;background:none}
 .stat .val small{font-size:12px;color:var(--muted);font-weight:600}
 .stat .bar{height:5px;border-radius:4px;background:#eef2f8;margin-top:9px;overflow:hidden}
 .stat .bar i{display:block;height:100%;border-radius:4px;background:linear-gradient(90deg,var(--acc),var(--acc-2))}
-
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(295px,1fr));gap:13px}
 .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden;box-shadow:0 2px 12px -6px rgba(10,23,48,.07)}
 .card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--acc),var(--acc-2))}
@@ -165,26 +148,21 @@ button{cursor:pointer;border:none;background:none}
 .chip.edit-chip:hover{background:#dbeafe;border-color:#93c5fd}
 .actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:auto}
 .actions .btn{flex:1;justify-content:center;min-width:80px}
-
 .review-list{list-style:none;display:flex;flex-direction:column;gap:10px}
 .review-list li{font-size:12.5px;color:var(--text-2);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 11px;line-height:1.5}
 .review-list li b{color:var(--navy);font-weight:800;display:block;margin-bottom:2px}
-
 .par-row{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
 .par-row label{font-size:11px;color:var(--muted);display:flex;flex-direction:column;gap:3px;font-weight:700}
 .par-row input{width:58px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:6px 8px;font-size:13px;text-align:center;color:var(--navy);font-weight:700}
 .par-score{font-size:12px;color:var(--ok);font-weight:800}
-
 .day-head{display:flex;align-items:baseline;gap:10px;margin-bottom:12px;padding-left:4px;flex-wrap:wrap}
 .day-head h3{font-size:15px;font-weight:800;letter-spacing:1px;color:var(--navy)}
 .day-head .day-sub{font-size:12px;color:var(--muted)}
 .day.today .day-head h3{color:#c2410c}
-
 .panel{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 2px 10px -6px rgba(10,23,48,.08)}
 .panel h2{font-size:12.5px;font-weight:800;letter-spacing:.6px;margin-bottom:14px;color:#c2410c;text-transform:uppercase}
 .panel-head{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
 .panel-head h2{margin:0;flex:1;font-size:12.5px;font-weight:800;letter-spacing:.6px;color:#c2410c;text-transform:uppercase}
-
 .badges-strip{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px}
 .badge-card{min-width:110px;padding:12px 10px;border-radius:14px;background:#fff;border:1px solid var(--line);text-align:center;flex:0 0 auto;position:relative}
 .badge-card.locked{opacity:.42;filter:grayscale(.7)}
@@ -194,14 +172,12 @@ button{cursor:pointer;border:none;background:none}
 .badge-card .b-label{font-size:11.5px;font-weight:800;color:var(--navy);margin-bottom:3px}
 .badge-card .b-desc{font-size:10px;color:var(--muted);line-height:1.35}
 .badges-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
-
 .badge-toast{position:fixed;top:24px;right:24px;z-index:500;background:linear-gradient(135deg,#fff7ed,#ffffff);border:2px solid var(--acc);border-radius:14px;padding:14px 18px;display:flex;gap:12px;align-items:center;box-shadow:0 20px 50px -18px rgba(255,138,31,.75);transform:translateX(140%);transition:transform .4s cubic-bezier(.2,.9,.3,1.2);min-width:280px}
 .badge-toast.show{transform:translateX(0)}
 .badge-toast .bt-icon{font-size:32px}
 .badge-toast .bt-title{font-size:10px;font-weight:800;letter-spacing:1.2px;color:#c2410c;text-transform:uppercase;margin-bottom:3px}
 .badge-toast .bt-name{font-size:14px;font-weight:800;color:var(--navy)}
 .badge-toast .bt-desc{font-size:11px;color:var(--muted);margin-top:2px}
-
 .overlay{position:fixed;inset:0;background:rgba(10,23,48,.55);backdrop-filter:blur(4px);display:none;z-index:200;padding:20px;overflow:auto}
 .overlay.open{display:block}
 .modal{max-width:640px;margin:40px auto;background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 30px 90px -30px rgba(10,23,48,.35);color:var(--text)}
@@ -224,14 +200,12 @@ button{cursor:pointer;border:none;background:none}
 .divider{height:1px;background:var(--line);margin:16px 0}
 .modal-foot{display:flex;gap:10px;justify-content:flex-end;margin-top:18px;flex-wrap:wrap}
 .wiz-step{font-size:11px;font-weight:800;letter-spacing:.6px;color:#94a3b8;text-transform:uppercase;margin-bottom:8px}
-
 .steps{list-style:none;display:flex;flex-direction:column;gap:7px}
 .steps li{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text-2);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:9px 11px;font-weight:600;cursor:pointer;user-select:none}
 .steps li .n{width:22px;height:22px;border-radius:6px;background:var(--acc-soft);display:grid;place-items:center;font-size:11px;font-weight:800;color:#c2410c;flex:0 0 auto;border:1px solid var(--acc-line)}
 .steps li.done{background:#f0fdf4;border-color:#bbf7d0;color:#15803d}
 .steps li.done .n{background:#10b981;color:#fff;border-color:#10b981}
 .steps-hint{font-size:11px;color:var(--muted);margin-top:6px;font-style:italic}
-
 .ai-out{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;font-size:13px;line-height:1.65;color:var(--text-2);white-space:pre-wrap;max-height:340px;overflow:auto}
 .q-block{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:12px}
 .q-block .q{font-size:13.5px;font-weight:700;margin-bottom:10px;color:var(--navy)}
@@ -239,7 +213,6 @@ button{cursor:pointer;border:none;background:none}
 .opt input{margin-top:2px;accent-color:var(--acc)}
 .opt.correct{background:#f0fdf4;border:1px solid #bbf7d0}
 .opt.wrong{background:#fef2f2;border:1px solid #fecaca}
-
 .rowlist{display:flex;flex-direction:column;gap:9px}
 .row{display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;flex-wrap:wrap;color:var(--text)}
 a.row:hover{border-color:var(--acc-line);background:#fff}
@@ -250,20 +223,16 @@ a.row:hover{border-color:var(--acc-line);background:#fff}
 .badge.ok{background:#f0fdf4;color:#15803d}
 .badge.warn{background:#fffbeb;color:#b45309}
 .badge.bad{background:#fef2f2;color:#b91c1c}
-
 .empty{text-align:center;padding:60px 20px;color:var(--muted)}
 .empty .big{font-size:38px;margin-bottom:12px}
 .empty h3{color:var(--navy);font-size:16px;margin-bottom:6px;font-weight:800}
 .empty p{font-size:13px;line-height:1.6;max-width:420px;margin:0 auto 18px}
-
 .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);opacity:0;background:var(--navy);border:1px solid #1e3a72;color:#fff;padding:11px 18px;border-radius:12px;font-size:13px;font-weight:700;z-index:400;transition:.25s;pointer-events:none}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .toast.pom{background:linear-gradient(135deg,var(--acc),var(--acc-2));border:none}
 .toast.green{background:linear-gradient(135deg,#10b981,#059669);border:none}
-
 .sidebar-overlay{position:fixed;inset:0;background:rgba(10,23,48,.5);z-index:55;display:none}
 .sidebar-overlay.open{display:block}
-
 .chart-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px;margin-bottom:16px}
 .chart-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px}
 .chart-card h3{font-size:12.5px;font-weight:800;letter-spacing:.5px;color:#c2410c;text-transform:uppercase;margin-bottom:12px}
@@ -277,22 +246,21 @@ a.row:hover{border-color:var(--acc-line);background:#fff}
 .hbar .hb-fill{height:100%;background:linear-gradient(90deg,var(--acc),var(--acc-2))}
 .hbar .hb-val{font-size:12px;font-weight:800;color:var(--navy);min-width:44px;text-align:right}
 .hbar .hb-sub{font-size:10.5px;color:var(--muted);min-width:60px;text-align:right}
-
 .dl-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
 .dl-card{background:linear-gradient(180deg,#fff,#fbfdff);border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center;transition:.18s;cursor:pointer}
 .dl-card:hover{border-color:var(--acc-line);transform:translateY(-2px)}
 .dl-card .dl-icon{font-size:34px;line-height:1;margin-bottom:8px}
 .dl-card .dl-t{font-size:13.5px;font-weight:800;color:var(--navy);margin-bottom:4px}
 .dl-card .dl-s{font-size:11px;color:var(--muted);line-height:1.5}
-
 .hidden-input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
-
-/* Ders değiştirme modal içi */
 .edit-preview{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:14px}
 .edit-preview .ep-lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;font-weight:700;margin-bottom:5px}
 .edit-preview .ep-val{font-size:14px;font-weight:800;color:var(--navy)}
 .edit-preview .ep-sub{font-size:11.5px;color:var(--text-2);margin-top:3px}
-
+/* PWA install button */
+.install-fab{position:fixed;right:20px;bottom:20px;z-index:150;background:linear-gradient(135deg,var(--acc),var(--acc-2));color:#fff;border:none;padding:12px 18px;border-radius:14px;font-weight:800;font-size:13px;box-shadow:0 15px 40px -12px rgba(255,138,31,.7);display:none;align-items:center;gap:8px}
+.install-fab.show{display:inline-flex}
+.install-fab:hover{transform:translateY(-2px)}
 @media (max-width:900px){
   .sidebar{position:fixed;left:0;top:0;transform:translateX(-102%);transition:transform .22s ease}
   .sidebar.open{transform:none}
@@ -352,6 +320,8 @@ a.row:hover{border-color:var(--acc-line);background:#fff}
   </main>
 </div>
 
+<button class="install-fab" id="installFab">⬇️ Uygulamayı Yükle</button>
+
 <div class="overlay" id="overlay"><div class="modal" id="modal"></div></div>
 <div class="toast" id="toast"></div>
 <div class="badge-toast" id="badgeToast">
@@ -366,11 +336,88 @@ a.row:hover{border-color:var(--acc-line);background:#fff}
 
 <script>
 /* ============================================================
-   DEK AI · v3.2 — Ders Değiştirme + Motivasyon + Sınav Sayacı
+   0) PWA — Manifest (inline Blob) + Service Worker kaydı
+   ============================================================ */
+(function setupPWA(){
+  // Inline SVG ikon (192 ve 512 için)
+  const svgIcon = (size)=>`<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 512 512">
+    <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff8a1f"/><stop offset="1" stop-color="#ff5e00"/>
+    </linearGradient></defs>
+    <rect width="512" height="512" rx="112" fill="url(#g)"/>
+    <text x="50%" y="54%" font-family="Arial,Helvetica,sans-serif" font-size="220" font-weight="800"
+      text-anchor="middle" dominant-baseline="middle" fill="#fff">DEK</text>
+  </svg>`;
+  const svgData = (size)=>'data:image/svg+xml;base64,'+btoa(unescape(encodeURIComponent(svgIcon(size))));
+
+  const manifest = {
+    name: "DEK AI – YKS Çalışma Programı",
+    short_name: "DEK AI",
+    description: "YKS çalışma programı, deneme takibi ve zayıf konu analizi.",
+    start_url: ".",
+    scope: ".",
+    display: "standalone",
+    orientation: "portrait-primary",
+    background_color: "#f7f9fc",
+    theme_color: "#0a1730",
+    lang: "tr",
+    icons: [
+      { src: svgData(192), sizes: "192x192", type: "image/svg+xml", purpose: "any" },
+      { src: svgData(192), sizes: "192x192", type: "image/svg+xml", purpose: "maskable" },
+      { src: svgData(512), sizes: "512x512", type: "image/svg+xml", purpose: "any" },
+      { src: svgData(512), sizes: "512x512", type: "image/svg+xml", purpose: "maskable" }
+    ]
+  };
+  const blob = new Blob([JSON.stringify(manifest)], {type:"application/manifest+json"});
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("link");
+  link.rel = "manifest";
+  link.href = url;
+  document.head.appendChild(link);
+
+  // Apple touch icon (iOS)
+  const apple = document.createElement("link");
+  apple.rel = "apple-touch-icon";
+  apple.href = svgData(192);
+  document.head.appendChild(apple);
+
+  // Service Worker kaydı — sw.js varsa PWA kurulabilir hâle gelir
+  if("serviceWorker" in navigator){
+    window.addEventListener("load", ()=>{
+      navigator.serviceWorker.register("./sw.js", {scope:"./"}).catch(()=>{
+        // sw.js yoksa sessizce geç — uygulama yine çalışır
+        console.info("[DEK AI] sw.js bulunamadı. Tam PWA için index.html yanına sw.js ekleyin.");
+      });
+    });
+  }
+
+  // Yükle butonu
+  let deferredPrompt = null;
+  window.addEventListener("beforeinstallprompt", (e)=>{
+    e.preventDefault();
+    deferredPrompt = e;
+    document.getElementById("installFab")?.classList.add("show");
+  });
+  document.addEventListener("click", (e)=>{
+    if(e.target.closest("#installFab")){
+      if(!deferredPrompt) return;
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(()=>{
+        deferredPrompt = null;
+        document.getElementById("installFab")?.classList.remove("show");
+      });
+    }
+  });
+  window.addEventListener("appinstalled", ()=>{
+    document.getElementById("installFab")?.classList.remove("show");
+  });
+})();
+
+/* ============================================================
+   DEK AI · v3.3 — IndexedDB + Proxy auto-save + PWA
    ============================================================ */
 const DEFAULT_EXAM_DATE = "2027-06-20";
 
-/* === MOTİVASYON CÜMLELERİ (365 gün için, döner) === */
 const MOTIVATION_QUOTES = [
   "Bugün yaptığın her çalışma, yarın seni bir adım daha ileri taşır.",
   "Başarı, her gün tekrarlanan küçük çabaların toplamıdır.",
@@ -424,15 +471,12 @@ const MOTIVATION_QUOTES = [
   "Emeğin karşılığını her zaman alırsın — sadece sabırlı ol."
 ];
 
-/* === GÜNLÜK MOTİVASYON === */
 function getDailyQuote(){
   const now=new Date();
   const start=new Date(now.getFullYear(),0,0);
   const dayOfYear=Math.floor((now-start)/86400000);
   return MOTIVATION_QUOTES[dayOfYear % MOTIVATION_QUOTES.length];
 }
-
-/* === SINAVA KALAN GÜN === */
 function daysUntilExam(){
   const examDate=(state.setup&&state.setup.examDate)||DEFAULT_EXAM_DATE;
   const today=new Date();today.setHours(0,0,0,0);
@@ -440,7 +484,6 @@ function daysUntilExam(){
   return Math.round((exam-today)/86400000);
 }
 
-/* === VARSAYILAN LİNKLER === */
 const DEFAULT_PLAYLISTS = [
   { subject:"Matematik", label:"0 DAN MATEMATİK KAMPI", url:"https://www.youtube.com/playlist?list=PLVoSZ0D0CB3qvNYQld-Y2RGC6Xgn1x3mP" },
   { subject:"Paragraf",  label:"Paragrafın Ritmi Kampı", url:"https://www.youtube.com/playlist?list=PLT5Y-Sr8yifs" },
@@ -457,7 +500,6 @@ const OGM_KONU_OZET="https://ogmmateryal.eba.gov.tr/mebi-konu-ozeti-kitaplari";
 const OGM_DENEME="https://ogmmateryal.eba.gov.tr/mebi-yks-denemeleri";
 const MEBİ_CONTENT="https://mebi.eba.gov.tr/student/home/content?q=";
 
-/* === ROZETLER === */
 const BADGE_DEFS=[
   {id:"first_lesson",icon:"🎯",label:"İlk Adım",desc:"İlk konunu tamamladın",cat:"Konu",check:s=>s.doneLessons>=1},
   {id:"lesson_10",icon:"📚",label:"Kitap Kurdu",desc:"10 konu tamamlandı",cat:"Konu",check:s=>s.doneLessons>=10},
@@ -485,7 +527,6 @@ const BADGE_DEFS=[
   {id:"rep_5",icon:"🔁",label:"Tekrar Ustası",desc:"5 konu tekrarı",cat:"Tekrar",check:()=>state.repetitions.length>=5}
 ];
 
-/* === MÜFREDAT === */
 const CURRICULUM={
   "TYT":{
     "Türkçe":["Sözcükte Anlam","Cümlede Anlam","Paragraf","Sözel Mantık"],
@@ -565,7 +606,55 @@ function showBadgeToast(badge){
 function totalCorrect(){return state.tests.reduce((a,t)=>a+(t.correct||0),0);}
 function totalPomodoro(){return (state.pomodoro.records||[]).length;}
 
+/* ============================================================
+   KATMANLI KALICI DEPOLAMA — IndexedDB + localStorage + Proxy
+   ============================================================ */
 const STORE_KEY="dekai_yks_v3";
+const BACKUP_KEY=STORE_KEY+"_backup";
+const IDB_NAME="dekai_yks_db", IDB_STORE="state", IDB_KEY="current";
+let _idb=null, _idbReady=false, _saveTimer=null, _dirty=false, _saveCount=0;
+
+function openIDB(){
+  return new Promise(res=>{
+    try{
+      if(!window.indexedDB) return res(null);
+      const req=indexedDB.open(IDB_NAME,1);
+      req.onupgradeneeded=e=>{
+        const db=e.target.result;
+        if(!db.objectStoreNames.contains(IDB_STORE)) db.createObjectStore(IDB_STORE);
+      };
+      req.onsuccess=e=>{_idb=e.target.result;_idbReady=true;res(_idb);};
+      req.onerror=()=>res(null);
+    }catch(e){res(null);}
+  });
+}
+function idbPut(data){
+  if(!_idbReady||!_idb)return;
+  try{
+    const tx=_idb.transaction(IDB_STORE,"readwrite");
+    tx.objectStore(IDB_STORE).put({data, ts:Date.now()}, IDB_KEY);
+  }catch(e){}
+}
+function idbGet(){
+  return new Promise(res=>{
+    if(!_idbReady||!_idb)return res(null);
+    try{
+      const tx=_idb.transaction(IDB_STORE,"readonly");
+      const rq=tx.objectStore(IDB_STORE).get(IDB_KEY);
+      rq.onsuccess=()=>res(rq.result||null);
+      rq.onerror=()=>res(null);
+    }catch(e){res(null);}
+  });
+}
+async function requestPersistentStorage(){
+  try{
+    if(navigator.storage && navigator.storage.persist){
+      const already = navigator.storage.persisted ? await navigator.storage.persisted() : false;
+      if(!already) await navigator.storage.persist();
+    }
+  }catch(e){}
+}
+
 const DEFAULT_STATE={
   version:3,setup:null,program:[],tests:[],denemeler:[],
   resources:{},notes:{},steps:{},playlists:null,repetitions:[],badges:[],
@@ -573,25 +662,105 @@ const DEFAULT_STATE={
   ui:{visibleDays:10},
   pomodoro:{date:"",count:0,workMin:25,breakMin:5,customWork:25,customBreak:5,records:[]}
 };
-let state=load();
 
 function seedPlaylists(){return DEFAULT_PLAYLISTS.map(p=>({id:uid(),...p}));}
+
+function normalizeParsed(parsed){
+  const merged=Object.assign(structuredClone(DEFAULT_STATE),parsed,{
+    settings:Object.assign({},DEFAULT_STATE.settings,parsed.settings||{}),
+    ui:Object.assign({},DEFAULT_STATE.ui,parsed.ui||{}),
+    pomodoro:Object.assign({},DEFAULT_STATE.pomodoro,parsed.pomodoro||{}),
+    steps:parsed.steps||{},repetitions:parsed.repetitions||[],badges:parsed.badges||[]
+  });
+  if(!Array.isArray(merged.playlists)||!merged.playlists.length)merged.playlists=seedPlaylists();
+  return merged;
+}
+
 function load(){
+  // 1) Ana slot
   try{
     const raw=localStorage.getItem(STORE_KEY);
-    if(!raw){const f=structuredClone(DEFAULT_STATE);f.playlists=seedPlaylists();return f;}
-    const parsed=JSON.parse(raw);
-    const merged=Object.assign(structuredClone(DEFAULT_STATE),parsed,{
-      settings:Object.assign({},DEFAULT_STATE.settings,parsed.settings||{}),
-      ui:Object.assign({},DEFAULT_STATE.ui,parsed.ui||{}),
-      pomodoro:Object.assign({},DEFAULT_STATE.pomodoro,parsed.pomodoro||{}),
-      steps:parsed.steps||{},repetitions:parsed.repetitions||[],badges:parsed.badges||[]
-    });
-    if(!Array.isArray(merged.playlists)||!merged.playlists.length)merged.playlists=seedPlaylists();
-    return merged;
-  }catch(e){const f=structuredClone(DEFAULT_STATE);f.playlists=seedPlaylists();return f;}
+    if(raw) return normalizeParsed(JSON.parse(raw));
+  }catch(e){}
+  // 2) Yedek slot
+  try{
+    const raw=localStorage.getItem(BACKUP_KEY);
+    if(raw) return normalizeParsed(JSON.parse(raw));
+  }catch(e){}
+  const f=structuredClone(DEFAULT_STATE);f.playlists=seedPlaylists();return f;
 }
-function save(){try{localStorage.setItem(STORE_KEY,JSON.stringify(state));}catch(e){toast("Kayıt hatası");}}
+
+function saveNow(){
+  clearTimeout(_saveTimer); _saveTimer=null;
+  try{
+    const raw=JSON.stringify(state);
+    try{localStorage.setItem(STORE_KEY,raw);}catch(e){}
+    try{localStorage.setItem(BACKUP_KEY,raw);}catch(e){}
+    try{idbPut(JSON.parse(raw));}catch(e){}
+    _dirty=false; _saveCount++;
+    updateSaveIndicator();
+  }catch(e){ toast("Kayıt hatası: "+e.message); }
+}
+function scheduleSave(){
+  _dirty=true;
+  clearTimeout(_saveTimer);
+  _saveTimer=setTimeout(saveNow,300);
+}
+function save(){ saveNow(); }
+
+function updateSaveIndicator(){
+  let el=document.getElementById("saveIndicator");
+  if(!el){
+    el=document.createElement("div");
+    el.id="saveIndicator";
+    el.style.cssText="position:fixed;bottom:14px;left:14px;z-index:300;font-size:10.5px;font-weight:700;color:#16a34a;background:#f0fdf4;border:1px solid #bbf7d0;padding:5px 10px;border-radius:8px;opacity:0;transition:opacity .3s;pointer-events:none";
+    document.body.appendChild(el);
+  }
+  el.textContent="💾 Otomatik kaydedildi";
+  el.style.opacity="1";
+  clearTimeout(el._t);
+  el._t=setTimeout(()=>el.style.opacity="0",1500);
+}
+
+/* Proxy — her mutasyonda otomatik kayıt */
+function makeReactive(obj){
+  const cache=new WeakMap();
+  function wrap(o){
+    if(!o||typeof o!=="object")return o;
+    if(cache.has(o))return cache.get(o);
+    const p=new Proxy(o,{
+      get(t,k,r){return wrap(Reflect.get(t,k,r));},
+      set(t,k,v){
+        const old=Reflect.get(t,k);
+        if(old===v)return true;
+        Reflect.set(t,k,v);
+        scheduleSave();
+        return true;
+      },
+      deleteProperty(t,k){
+        if(!(k in t))return true;
+        Reflect.deleteProperty(t,k);
+        scheduleSave();
+        return true;
+      }
+    });
+    cache.set(o,p);
+    return p;
+  }
+  return wrap(obj);
+}
+
+let state=makeReactive(load());
+
+/* Zorla kaydet — sayfa kapanırken / gizlenirken */
+window.addEventListener("beforeunload",()=>{ if(_dirty) saveNow(); });
+window.addEventListener("pagehide",()=>{ if(_dirty) saveNow(); });
+document.addEventListener("visibilitychange",()=>{
+  if(document.visibilityState==="hidden" && _dirty) saveNow();
+});
+setInterval(()=>{ if(_dirty) saveNow(); }, 30000);
+
+/* --------- yardımcılar --------- */
 function ensurePomodoroToday(){
   const today=iso(new Date());
   if(state.pomodoro.date!==today){state.pomodoro.date=today;state.pomodoro.count=0;save();}
@@ -929,7 +1098,6 @@ function renderHome(stats){
   const todayAllCards=todayDay?[...todayDay.cards,...todayReps]:[];
 
   el.innerHTML=`
-    <!-- HOŞ GELDİN -->
     <div class="home-hero">
       <div>
         <div class="hero-hi">${todayName} · ${today.getDate()} ${AYLAR[today.getMonth()]} ${today.getFullYear()}</div>
@@ -953,17 +1121,14 @@ function renderHome(stats){
       <div class="hero-emoji">${todayDone===todayTotal&&todayTotal>0?"🎉":"📚"}</div>
     </div>
 
-    <!-- MOTİVASYON -->
     <div class="motiv-card">
       <div class="mv-icon">💡</div>
       <div class="mv-txt">${esc(quote)}</div>
       <div class="mv-badge">Günün Sözü</div>
     </div>
 
-    <!-- POMODORO -->
     <div id="pomodoroHost"></div>
 
-    <!-- HIZLI ERİŞİM -->
     <div class="section-head"><h2>⚡ Hızlı Erişim</h2><div class="sh-line"></div></div>
     <div class="quick-grid">
       <div class="quick-card" data-nav="program"><div class="qi">📅</div>
@@ -980,7 +1145,6 @@ function renderHome(stats){
         <div class="qt">Kaynaklar</div><div class="qs">MEBİ · ÖGM · YouTube</div></div>
     </div>
 
-    <!-- GENEL İSTATİSTİKLER -->
     <div class="section-head"><h2>📊 Genel Durum</h2><div class="sh-line"></div></div>
     <div class="stats">
       <div class="stat"><div class="lbl">Genel İlerleme</div><div class="val">${stats.overall}%</div>
@@ -994,7 +1158,6 @@ function renderHome(stats){
       <div class="stat"><div class="lbl">Günlük Seri</div><div class="val">${stats.streak}<small> gün</small></div></div>
     </div>
 
-    <!-- BUGÜNÜN KARTLARI -->
     <div class="section-head">
       <h2>📚 Bugünün Çalışma Kartları</h2>
       <div class="sh-line"></div>
@@ -1047,7 +1210,6 @@ function renderHome(stats){
   renderPomodoro();
 }
 
-/* === CARD HTML === */
 function cardHTML(c,dayIso){
   if(c.type==="review"){
     const items=c.items&&c.items.length
@@ -1110,7 +1272,6 @@ function cardHTML(c,dayIso){
         <button class="btn sm ${c.done?"ok":"todo"}" data-act="toggle" data-day="${dayIso}" data-card="${c.id}">${c.done?"☑ Tamamlandı":"Tamamlandı"}</button>
       </div></article>`;
   }
-  /* LESSON CARD */
   const custom=state.resources[resKey(c)]||[];
   const customChips=custom.map((r,i)=>
     `<a class="chip" target="_blank" rel="noopener" href="${esc(r.url)}">🔗 ${esc(r.label||"Kaynak")}
@@ -1136,122 +1297,64 @@ function cardHTML(c,dayIso){
     </div></article>`;
 }
 
-/* === DERS DEĞİŞTİRME MODALI === */
+/* === DERS DEĞİŞTİRME === */
 function openEditLesson(dayIso, cardId){
   const day=state.program.find(d=>d.iso===dayIso);
   if(!day){toast("Gün bulunamadı");return;}
   const card=day.cards.find(c=>c.id===cardId);
   if(!card||card.type!=="lesson"){toast("Bu kart değiştirilemez");return;}
-
-  // Kullanıcının sınav türlerinden dersleri topla (yoksa tüm CURRICULUM)
-  const userTypes=(state.setup&&state.setup.examTypes)||["TYT"];
-  const subjectPool=[];
-  userTypes.forEach(t=>{
-    const block=CURRICULUM[t];
-    if(!block)return;
-    Object.keys(block).forEach(s=>{if(!subjectPool.some(x=>x.subject===s)) subjectPool.push({subject:s, examType:t});});
-  });
-  if(!subjectPool.length){
-    Object.entries(CURRICULUM).forEach(([t,block])=>{
-      Object.keys(block).forEach(s=>{if(!subjectPool.some(x=>x.subject===s)) subjectPool.push({subject:s, examType:t});});
-    });
-  }
-
-  // İlk render için mevcut değerlerin türünü bul
-  const curType = userTypes.includes(card.examType) ? card.examType : (userTypes[0]||"TYT");
-  const curTopics = (CURRICULUM[card.examType] && CURRICULUM[card.examType][card.subject]) || [];
-
   openModal(`✏️ Dersi Değiştir — ${esc(card.time)}`, `
     <div class="edit-preview">
       <div class="ep-lbl">Mevcut Kart</div>
       <div class="ep-val">${esc(EXAM_LABELS[card.examType]||card.examType)} · ${esc(card.subject)}</div>
       <div class="ep-sub">${esc(card.topic)}</div>
     </div>
-
     <div class="form-grid">
-      <div class="field full">
-        <label>Sınav Türü</label>
+      <div class="field full"><label>Sınav Türü</label>
         <select id="el_exam">
           ${Object.keys(EXAM_LABELS).map(k=>`<option value="${k}" ${k===card.examType?"selected":""}>${esc(EXAM_LABELS[k])}</option>`).join("")}
-        </select>
-      </div>
-      <div class="field full">
-        <label>Ders</label>
-        <select id="el_subject"></select>
-      </div>
-      <div class="field full">
-        <label>Konu</label>
-        <select id="el_topic"></select>
-      </div>
-      <div class="field full">
-        <label>Soru Sayısı</label>
-        <input type="number" id="el_q" min="5" max="100" value="${card.q||20}">
-      </div>
+        </select></div>
+      <div class="field full"><label>Ders</label><select id="el_subject"></select></div>
+      <div class="field full"><label>Konu</label><select id="el_topic"></select></div>
+      <div class="field full"><label>Soru Sayısı</label><input type="number" id="el_q" min="5" max="100" value="${card.q||20}"></div>
     </div>
-
-    <div class="info-box">
-      <span>ℹ️</span>
-      <div>Bu değişiklik sadece <b>bu günün bu kartını</b> etkiler. Diğer günlerdeki program aynı kalır.</div>
-    </div>
-
+    <div class="info-box"><span>ℹ️</span>
+      <div>Bu değişiklik sadece <b>bu günün bu kartını</b> etkiler.</div></div>
     <div class="modal-foot">
       <button class="btn ghost" data-close>İptal</button>
       <button class="btn blue" id="el_reset">↺ Sıfırla</button>
       <button class="btn primary" id="el_save">💾 Kaydet</button>
-    </div>
-  `, { wide:true });
-
-  const examSel=$("#el_exam");
-  const subjSel=$("#el_subject");
-  const topicSel=$("#el_topic");
-
+    </div>`);
+  const examSel=$("#el_exam"), subjSel=$("#el_subject"), topicSel=$("#el_topic");
   function populateSubjects(){
-    const t=examSel.value;
-    const block=CURRICULUM[t]||{};
-    const subjects=Object.keys(block);
+    const t=examSel.value;const block=CURRICULUM[t]||{};const subjects=Object.keys(block);
     subjSel.innerHTML=subjects.map(s=>`<option value="${esc(s)}" ${s===card.subject?"selected":""}>${esc(s)}</option>`).join("");
     populateTopics();
   }
   function populateTopics(){
-    const t=examSel.value;
-    const s=subjSel.value;
-    const block=CURRICULUM[t]||{};
-    const topics=block[s]||[];
-    topicSel.innerHTML=topics.map(tp=>`<option value="${esc(tp)}" ${tp===card.topic?"selected":""}>${esc(tp)}</option>`).join("")
-      || `<option value="">— Konu yok —</option>`;
+    const t=examSel.value,s=subjSel.value;const block=CURRICULUM[t]||{};const topics=block[s]||[];
+    topicSel.innerHTML=topics.map(tp=>`<option value="${esc(tp)}" ${tp===card.topic?"selected":""}>${esc(tp)}</option>`).join("")||`<option value="">— Konu yok —</option>`;
   }
-
   examSel.onchange=populateSubjects;
   subjSel.onchange=populateTopics;
   populateSubjects();
-
   $("#el_save").onclick=()=>{
-    const newExam=examSel.value;
-    const newSubj=subjSel.value;
-    const newTopic=topicSel.value;
+    const newExam=examSel.value,newSubj=subjSel.value,newTopic=topicSel.value;
     const newQ=clamp(Number($("#el_q").value)||15,5,100);
     if(!newSubj||!newTopic){toast("Ders ve konu seçilmeli");return;}
-    // Kartı güncelle
-    card.examType=newExam;
-    card.phase=newExam==="TYT"?"TYT":"AYT";
-    card.subject=newSubj;
-    card.topic=newTopic;
-    card.q=newQ;
+    card.examType=newExam;card.phase=newExam==="TYT"?"TYT":"AYT";
+    card.subject=newSubj;card.topic=newTopic;card.q=newQ;
     save();closeModal();renderAll();
-    toast(`✓ Kart güncellendi: ${newSubj} – ${newTopic}`,"green");
+    toast(`✓ Kart güncellendi`,"green");
   };
-
   $("#el_reset").onclick=()=>{
-    examSel.value=card.examType;
-    populateSubjects();
-    subjSel.value=card.subject;
-    populateTopics();
-    topicSel.value=card.topic;
-    $("#el_q").value=card.q||20;
+    examSel.value=card.examType;populateSubjects();
+    subjSel.value=card.subject;populateTopics();
+    topicSel.value=card.topic;$("#el_q").value=card.q||20;
   };
 }
 
-/* === PROGRAM VIEW === */
+/* === PROGRAM === */
 function dayHTML(day){
   const d=fromIso(day.iso);
   const today=day.iso===iso(new Date());
@@ -1530,8 +1633,7 @@ function renderDeneme(){
   buildRows();
   $("#dType").onchange=buildRows;
   $("#dSave").onclick=()=>{
-    const type=$("#dType").value;
-    const results={};
+    const type=$("#dType").value;const results={};
     DENEME_SCHEMA[type].forEach(([name])=>{
       const d=Number($(`[data-d="${CSS.escape(name)}"]`).value)||0;
       const w=Number($(`[data-w="${CSS.escape(name)}"]`).value)||0;
@@ -1539,8 +1641,7 @@ function renderDeneme(){
       results[name]={d,w,e};
     });
     state.denemeler.push({type,date:$("#dDate").value,results});
-    save();renderAll();
-    toast("Deneme kaydedildi");
+    save();renderAll();toast("Deneme kaydedildi");
   };
   el.addEventListener("click",ev=>{
     const btn=ev.target.closest("[data-act='deldeneme']");
@@ -1608,7 +1709,7 @@ function renderSettings(){
   el.innerHTML=`
     <div class="panel" style="margin-bottom:18px;background:linear-gradient(135deg,#fff7ed,#ffffff);border-color:var(--acc-line)">
       <h2>📁 Veri Yönetimi</h2>
-      <div class="note" style="margin-bottom:14px">JSON yedekle, PDF raporla, CSV indir.</div>
+      <div class="note" style="margin-bottom:14px">Verileriniz otomatik olarak tarayıcıda (localStorage + IndexedDB) saklanır. Ekstra güvence için manuel yedek alabilirsiniz.</div>
       <div class="dl-grid">
         <div class="dl-card" data-act="dl-json"><div class="dl-icon">📥</div>
           <div class="dl-t">JSON Yedek İndir</div><div class="dl-s">Tüm veriler (${sizeKB} KB)</div></div>
@@ -1677,10 +1778,13 @@ function renderSettings(){
   };
   $("#resetAll").onclick=()=>{
     if(!confirm("⚠️ TÜM veriler silinecek. Emin misin?"))return;
-    localStorage.removeItem(STORE_KEY);
-    state=structuredClone(DEFAULT_STATE);
-    state.playlists=seedPlaylists();
-    pomoReset();renderAll();toast("Veriler sıfırlandı");
+    try{localStorage.removeItem(STORE_KEY);localStorage.removeItem(BACKUP_KEY);}catch(e){}
+    try{if(_idb){const tx=_idb.transaction(IDB_STORE,"readwrite");tx.objectStore(IDB_STORE).delete(IDB_KEY);}}catch(e){}
+    const fresh=structuredClone(DEFAULT_STATE);
+    fresh.playlists=seedPlaylists();
+    Object.keys(state).forEach(k=>{delete state[k];});
+    Object.assign(state, fresh);
+    pomoReset();saveNow();renderAll();toast("Veriler sıfırlandı");
   };
 }
 
@@ -1714,9 +1818,11 @@ function importJSON(file){
         playlists:(Array.isArray(data.playlists)&&data.playlists.length)?data.playlists:seedPlaylists(),
         repetitions:data.repetitions||[],badges:data.badges||[],
         pomodoro:Object.assign({},DEFAULT_STATE.pomodoro,data.pomodoro||{}),
-        settings:state.settings,ui:state.ui};
-      state=Object.assign(structuredClone(DEFAULT_STATE),safe);
-      save();renderAll();toast("✅ Yedek geri yüklendi","green");
+        settings:JSON.parse(JSON.stringify(state.settings)),ui:JSON.parse(JSON.stringify(state.ui))};
+      const fresh=Object.assign(structuredClone(DEFAULT_STATE),safe);
+      Object.keys(state).forEach(k=>{delete state[k];});
+      Object.assign(state, fresh);
+      saveNow();renderAll();toast("✅ Yedek geri yüklendi","green");
     }catch(err){console.error(err);toast("❌ Dosya okunamadı");}
   };
   reader.onerror=()=>toast("❌ Okunamadı");
@@ -1761,10 +1867,7 @@ function exportPDF(){
     <h1 style="margin:0">DEK AI – YKS İlerleme Raporu</h1>
     <div class="sub" style="margin:0">${now.getDate()} ${AYLAR[now.getMonth()]} ${now.getFullYear()} · ${examTypes}</div>
   </div></div>
-  <div class="countdown">
-    <div class="cn">${daysLeft}</div>
-    <div class="cl">GÜN KALDI</div>
-  </div>
+  <div class="countdown"><div class="cn">${daysLeft}</div><div class="cl">GÜN KALDI</div></div>
   <h2>📊 Genel İstatistikler</h2>
   <div class="grid">
     <div class="box"><div class="lbl">Genel İlerleme</div><div class="val">%${s.overall}</div></div>
@@ -1928,7 +2031,6 @@ function openStudy(dayIso,cardId,isRep){
     gen.disabled=false;gen.textContent="✨ Özeti Üret";
   };
 }
-
 function findRepetitionCard(dayIso,cardId){
   const r=state.repetitions.find(x=>"rep-"+x.id===cardId);
   if(!r)return null;
@@ -2070,7 +2172,7 @@ function openWizard(){
         <div class="chips" id="wTypes">
           ${Object.keys(EXAM_LABELS).map(k=>`<span class="chk ${types.includes(k)?"on":""}" data-t="${k}">${esc(EXAM_LABELS[k])}</span>`).join("")}
         </div>
-        <div class="info-box"><span>ℹ️</span><div>Hiçbirini işaretlemezsen <b>TYT</b> kullanılır. TYT'de Fen dersleri yoktur.</div></div>
+        <div class="info-box"><span>ℹ️</span><div>Hiçbirini işaretlemezsen <b>TYT</b> kullanılır.</div></div>
       </div>
       <div class="field"><div class="wiz-step">2️⃣ Hedef bölüm</div><input id="wDept" value="${esc(s.targetDept||"")}"></div>
       <div class="field"><div class="wiz-step">Hedef üniversite</div><input id="wUni" value="${esc(s.targetUni||"")}"></div>
@@ -2245,8 +2347,38 @@ $("#btnRebuild").onclick=()=>{
   generate();toast("Program yeniden oluşturuldu");
 };
 
-/* === INIT === */
-(function init(){
+/* ============================================================
+   INIT — IndexedDB aç, gerekirse geri yükle, uygulamayı başlat
+   ============================================================ */
+(async function initApp(){
+  await openIDB();
+  requestPersistentStorage();
+
+  // localStorage boşaldıysa ama IDB doluysa geri yükle
+  const rec = await idbGet();
+  if(rec && rec.data){
+    let needRestore = false;
+    const lsRaw = localStorage.getItem(STORE_KEY);
+    if(!lsRaw){
+      needRestore = true;
+    } else {
+      try{
+        const ls = JSON.parse(lsRaw);
+        if((!ls.program || !ls.program.length) && rec.data.program && rec.data.program.length){
+          needRestore = true;
+        }
+      }catch(e){ needRestore = true; }
+    }
+    if(needRestore){
+      const restored = normalizeParsed(rec.data);
+      Object.keys(state).forEach(k=>{ delete state[k]; });
+      Object.assign(state, restored);
+      saveNow();
+      renderAll();
+      toast("💾 Veriler IndexedDB'den geri yüklendi","green");
+    }
+  }
+
   ensurePomodoroToday();
   pomoRuntime.seconds=pomoWorkSec();
   renderAll();
