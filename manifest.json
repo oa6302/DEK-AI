@@ -1,0 +1,38 @@
+{
+  "name": "DEK AI – YKS Çalışma Programı",
+  "short_name": "DEK AI",
+  "description": "YKS çalışma programı, deneme takibi ve zayıf konu analizi.",
+  "start_url": "/",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f7f9fc",
+  "theme_color": "#0a1730",
+  "lang": "tr",
+  "icons": [
+    {
+      "src": "data:[omitted-by-pwabuilder]",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "data:[omitted-by-pwabuilder]",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    },
+    {
+      "src": "data:[omitted-by-pwabuilder]",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "data:[omitted-by-pwabuilder]",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}
