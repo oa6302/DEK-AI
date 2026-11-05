@@ -3,11 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0a1730">  
-<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0a1730">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="DEK AI">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23ff8a1f'/%3E%3Ctext x='50' y='68' text-anchor='middle' font-size='52' font-family='Arial,sans-serif' font-weight='800' fill='white'%3ED%3C/text%3E%3C/svg%3E">
 <title>DEK AI – YKS Çalışma Programı</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -258,7 +260,6 @@ a.row:hover{border-color:var(--acc-line);background:#fff}
 .edit-preview .ep-lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;font-weight:700;margin-bottom:5px}
 .edit-preview .ep-val{font-size:14px;font-weight:800;color:var(--navy)}
 .edit-preview .ep-sub{font-size:11.5px;color:var(--text-2);margin-top:3px}
-/* PWA install button */
 .install-fab{position:fixed;right:20px;bottom:20px;z-index:150;background:linear-gradient(135deg,var(--acc),var(--acc-2));color:#fff;border:none;padding:12px 18px;border-radius:14px;font-weight:800;font-size:13px;box-shadow:0 15px 40px -12px rgba(255,138,31,.7);display:none;align-items:center;gap:8px}
 .install-fab.show{display:inline-flex}
 .install-fab:hover{transform:translateY(-2px)}
@@ -340,7 +341,6 @@ a.row:hover{border-color:var(--acc-line);background:#fff}
    0) PWA — Manifest (inline Blob) + Service Worker kaydı
    ============================================================ */
 (function setupPWA(){
-  // Inline SVG ikon (192 ve 512 için)
   const svgIcon = (size)=>`<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 512 512">
     <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#ff8a1f"/><stop offset="1" stop-color="#ff5e00"/>
@@ -351,23 +351,26 @@ a.row:hover{border-color:var(--acc-line);background:#fff}
   </svg>`;
   const svgData = (size)=>'data:image/svg+xml;base64,'+btoa(unescape(encodeURIComponent(svgIcon(size))));
 
-  // Apple touch icon (iOS)
   const apple = document.createElement("link");
   apple.rel = "apple-touch-icon";
   apple.href = svgData(192);
   document.head.appendChild(apple);
 
-  // Service Worker kaydı — sw.js varsa PWA kurulabilir hâle gelir
+  // SW kaydı — updateViaCache:none ile eski cache'i atlar
   if("serviceWorker" in navigator){
-    window.addEventListener("load", ()=>{
-      navigator.serviceWorker.register("./sw.js", {scope:"./"}).catch(()=>{
-        // sw.js yoksa sessizce geç — uygulama yine çalışır
-        console.info("[DEK AI] sw.js bulunamadı. Tam PWA için index.html yanına sw.js ekleyin.");
-      });
+    window.addEventListener("load", async ()=>{
+      try{
+        const reg = await navigator.serviceWorker.register("./sw.js", {
+          scope: "./",
+          updateViaCache: "none"
+        });
+        try { await reg.update(); } catch(_){}
+      }catch(e){
+        console.info("[DEK AI] sw.js yüklenemedi:", e.message);
+      }
     });
   }
 
-  // Yükle butonu
   let deferredPrompt = null;
   window.addEventListener("beforeinstallprompt", (e)=>{
     e.preventDefault();
@@ -390,8 +393,9 @@ a.row:hover{border-color:var(--acc-line);background:#fff}
 })();
 
 /* ============================================================
-   DEK AI · v3.3 — IndexedDB + Proxy auto-save + PWA
+   DEK AI · v3.3.1 — IndexedDB + Proxy auto-save + PWA
    ============================================================ */
+const APP_VERSION = "3.3.1";
 const DEFAULT_EXAM_DATE = "2027-06-20";
 
 const MOTIVATION_QUOTES = [
@@ -457,7 +461,8 @@ function daysUntilExam(){
   const examDate=(state.setup&&state.setup.examDate)||DEFAULT_EXAM_DATE;
   const today=new Date();today.setHours(0,0,0,0);
   const exam=new Date(examDate);exam.setHours(0,0,0,0);
-  return Math.round((exam-today)/86400000);
+  const diff = exam-today;
+  return isNaN(diff) ? 0 : Math.round(diff/86400000);
 }
 
 const DEFAULT_PLAYLISTS = [
@@ -552,6 +557,7 @@ const QUESTION_COUNT={"Matematik":30,"Türkçe":30,"Fizik":20,"Kimya":20,"Biyolo
 const AYLAR=["OCAK","ŞUBAT","MART","NİSAN","MAYIS","HAZİRAN","TEMMUZ","AĞUSTOS","EYLÜL","EKİM","KASIM","ARALIK"];
 const GUNLER=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
 const GUNLER_KISA=["Paz","Pzt","Sal","Çar","Per","Cum","Cmt"];
+const LESSON_START_HOURS=[9,10,11,13,14,16];
 
 const $=(s,r=document)=>r.querySelector(s);
 const $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
@@ -652,30 +658,40 @@ function normalizeParsed(parsed){
   return merged;
 }
 
+/* load — hatalar artık sessizce yutulmuyor */
 function load(){
-  // 1) Ana slot
-  try{
-    const raw=localStorage.getItem(STORE_KEY);
-    if(raw) return normalizeParsed(JSON.parse(raw));
-  }catch(e){}
-  // 2) Yedek slot
-  try{
-    const raw=localStorage.getItem(BACKUP_KEY);
-    if(raw) return normalizeParsed(JSON.parse(raw));
-  }catch(e){}
+  const primary = localStorage.getItem(STORE_KEY);
+  if(primary){
+    try{ return normalizeParsed(JSON.parse(primary)); }
+    catch(e){ console.error("[DEK AI] Ana kayıt bozuk:", e); }
+  }
+  const backup = localStorage.getItem(BACKUP_KEY);
+  if(backup){
+    try{
+      const parsed = normalizeParsed(JSON.parse(backup));
+      console.warn("[DEK AI] Yedek slotundan geri yüklendi");
+      return parsed;
+    }catch(e){ console.error("[DEK AI] Yedek de bozuk:", e); }
+  }
+  console.info("[DEK AI] Hiçbir kayıt yok, sıfırdan başlanıyor");
   const f=structuredClone(DEFAULT_STATE);f.playlists=seedPlaylists();return f;
 }
 
+/* saveNow — hatayı gizlemiyor, indicator'ı doğru günceller */
 function saveNow(){
   clearTimeout(_saveTimer); _saveTimer=null;
   try{
     const raw=JSON.stringify(state);
-    try{localStorage.setItem(STORE_KEY,raw);}catch(e){}
-    try{localStorage.setItem(BACKUP_KEY,raw);}catch(e){}
-    try{idbPut(JSON.parse(raw));}catch(e){}
+    let ok=false;
+    try{localStorage.setItem(STORE_KEY,raw);ok=true;}
+    catch(e){console.warn("[DEK AI] Ana kayıt hatası:",e);}
+    try{localStorage.setItem(BACKUP_KEY,raw);}
+    catch(e){console.warn("[DEK AI] Yedek kayıt hatası:",e);}
+    try{if(_idbReady&&_idb)idbPut(JSON.parse(raw));}
+    catch(e){console.warn("[DEK AI] IDB hatası:",e);}
     _dirty=false; _saveCount++;
-    updateSaveIndicator();
-  }catch(e){ toast("Kayıt hatası: "+e.message); }
+    updateSaveIndicator(ok);
+  }catch(e){ console.error(e); toast("Kayıt hatası: "+e.message); }
 }
 function scheduleSave(){
   _dirty=true;
@@ -684,15 +700,21 @@ function scheduleSave(){
 }
 function save(){ saveNow(); }
 
-function updateSaveIndicator(){
+function updateSaveIndicator(ok){
   let el=document.getElementById("saveIndicator");
   if(!el){
     el=document.createElement("div");
     el.id="saveIndicator";
-    el.style.cssText="position:fixed;bottom:14px;left:14px;z-index:300;font-size:10.5px;font-weight:700;color:#16a34a;background:#f0fdf4;border:1px solid #bbf7d0;padding:5px 10px;border-radius:8px;opacity:0;transition:opacity .3s;pointer-events:none";
+    el.style.cssText="position:fixed;bottom:14px;left:14px;z-index:300;font-size:10.5px;font-weight:700;padding:5px 10px;border-radius:8px;opacity:0;transition:opacity .3s;pointer-events:none";
     document.body.appendChild(el);
   }
-  el.textContent="💾 Otomatik kaydedildi";
+  if(ok===false){
+    el.textContent="⚠️ Kayıt başarısız";
+    el.style.color="#b91c1c"; el.style.background="#fef2f2"; el.style.border="1px solid #fecaca";
+  } else {
+    el.textContent="💾 Otomatik kaydedildi";
+    el.style.color="#16a34a"; el.style.background="#f0fdf4"; el.style.border="1px solid #bbf7d0";
+  }
   el.style.opacity="1";
   clearTimeout(el._t);
   el._t=setTimeout(()=>el.style.opacity="0",1500);
@@ -728,7 +750,6 @@ function makeReactive(obj){
 
 let state=makeReactive(load());
 
-/* Zorla kaydet — sayfa kapanırken / gizlenirken */
 window.addEventListener("beforeunload",()=>{ if(_dirty) saveNow(); });
 window.addEventListener("pagehide",()=>{ if(_dirty) saveNow(); });
 document.addEventListener("visibilitychange",()=>{
@@ -779,9 +800,26 @@ function buildPools(){
   });
   return pools;
 }
+
+/* buildProgram — defensive: setup ve tarih kontrolleri, dailyHours kullanımı */
 function buildProgram(){
+  if(!state.setup){
+    console.error("[DEK AI] buildProgram: state.setup yok");
+    return [];
+  }
   const start=fromIso(state.setup.startDate||iso(new Date()));
   const end=fromIso(state.setup.examDate||DEFAULT_EXAM_DATE);
+  if(isNaN(start.getTime())||isNaN(end.getTime())){
+    console.error("[DEK AI] buildProgram: geçersiz tarih", {startDate:state.setup.startDate, examDate:state.setup.examDate});
+    return [];
+  }
+  if(start>end){
+    console.error("[DEK AI] buildProgram: başlangıç sınav tarihinden sonra", iso(start), ">", iso(end));
+    return [];
+  }
+  const hours = clamp(Number(state.setup.dailyHours) || 6, 1, 14);
+  const lessonSlots = clamp(Math.round(hours / 2), 2, 6);
+
   const aytStart=computeAytStart(start);
   const pools=buildPools();
   const credits=pools.map(p=>({p,c:0}));
@@ -793,12 +831,13 @@ function buildProgram(){
     active.forEach(x=>{x.w=x.p.weight*(x.p.phase==="TYT"&&isAyt?0.75:1);totalW+=x.w;});
     const cards=[];
     if(totalW>0){
-      for(let slot=0;slot<2;slot++){
+      for(let slot=0;slot<lessonSlots;slot++){
         let best=null;
         active.forEach(x=>{if(x.p.idx>=x.p.topics.length)return;if(!best||x.c>best.c)best=x;});
         if(!best)break;
         const topic=best.p.topics[best.p.idx++];
-        cards.push({id:dayIso+"-"+slot,time:slot===0?"10:00 – 11:00":"11:00 – 12:00",
+        const h=LESSON_START_HOURS[slot]!==undefined?LESSON_START_HOURS[slot]:(9+slot);
+        cards.push({id:dayIso+"-"+slot,time:`${pad(h)}:00 – ${pad(h+1)}:00`,
           type:"lesson",phase:best.p.phase,examType:best.p.examType,subject:best.p.subject,topic,
           q:QUESTION_COUNT[best.p.subject]??15,done:false});
         best.c-=totalW;active.forEach(x=>{x.c+=x.w;});
@@ -879,10 +918,11 @@ function weakTopics(){
 
 /* === POMODORO === */
 let pomoRuntime={running:false,seconds:25*60,mode:"work",interval:null};
+let pomoTaskValue="";
 function pomoWorkSec(){return (state.pomodoro.workMin||25)*60;}
 function pomoBreakSec(){return (state.pomodoro.breakMin||5)*60;}
 function pomoFormat(s){const m=Math.floor(s/60),sec=s%60;return `${pad(m)}:${pad(sec)}`;}
-function pomoSelectedTask(){const sel=$("#pomoTask");return sel?sel.value||"":"";}
+function pomoSelectedTask(){return pomoTaskValue||"";}
 function pomoProgressPct(){
   const total=pomoRuntime.mode==="break"?pomoBreakSec():pomoWorkSec();
   const left=Math.max(0,pomoRuntime.seconds);
@@ -901,7 +941,10 @@ function renderPomodoro(){
   const todayDay=state.program.find(d=>d.iso===todayIso);
   const taskOptions=[`<option value="">— Görev seç (opsiyonel) —</option>`].concat(
     (todayDay?todayDay.cards.filter(c=>c.type==="lesson"):[])
-      .map(c=>`<option value="${esc(c.subject)} – ${esc(c.topic)}">${esc(EXAM_LABELS[c.examType]||c.examType)} · ${esc(c.subject)} – ${esc(c.topic)}</option>`)
+      .map(c=>{
+        const v = `${c.subject} – ${c.topic}`;
+        return `<option value="${esc(v)}">${esc(EXAM_LABELS[c.examType]||c.examType)} · ${esc(c.subject)} – ${esc(c.topic)}</option>`;
+      })
   ).join("");
   const wm=state.pomodoro.workMin,bm=state.pomodoro.breakMin;
   const preset=(wm===25&&bm===5)?"25":(wm===50&&bm===10)?"50":"custom";
@@ -937,6 +980,12 @@ function renderPomodoro(){
       </div>
     </div>`;
   pomoUpdateRing();
+  // Görev seçimi korunuyor
+  const taskSel = $("#pomoTask");
+  if(taskSel){
+    if(pomoTaskValue) taskSel.value = pomoTaskValue;
+    taskSel.onchange = () => { pomoTaskValue = taskSel.value; };
+  }
   $("#pomoStart").onclick=()=>{if(pomoRuntime.running)pomoPause();else pomoStart();};
   $("#pomoReset").onclick=pomoReset;
   $("#pomoModes").addEventListener("click",e=>{
@@ -1619,12 +1668,6 @@ function renderDeneme(){
     state.denemeler.push({type,date:$("#dDate").value,results});
     save();renderAll();toast("Deneme kaydedildi");
   };
-  el.addEventListener("click",ev=>{
-    const btn=ev.target.closest("[data-act='deldeneme']");
-    if(!btn)return;
-    state.denemeler.splice(Number(btn.dataset.idx),1);
-    save();renderAll();
-  });
 }
 
 /* === RESOURCES === */
@@ -1740,7 +1783,7 @@ function renderSettings(){
       targetUni:$("#setUni").value.trim(),
       weakTopics:$("#setWeak").value.split(",").map(s=>s.trim()).filter(Boolean)
     });
-    generate();toast("Program yeniden oluşturuldu");
+    if(generate())toast("✓ Program yeniden oluşturuldu","green");
   };
   $("#setApiSave").onclick=()=>{
     state.settings.geminiKey=$("#setGem").value.trim();
@@ -1991,7 +2034,7 @@ function openStudy(dayIso,cardId,isRep){
           liveCard.done=true;
           if(isRep){const r=state.repetitions.find(x=>"rep-"+x.id===cardId);if(r)r.done=true;}
           save();toast("Tebrikler! Konu tamamlandı ✓","green");
-          checkBadges();renderAll();
+          renderAll();
         }
       }
     });
@@ -2179,13 +2222,33 @@ function openWizard(){
       targetNets:($("#wTarget").value||"").trim(),
       weakTopics:($("#wWeak").value||"").split(",").map(x=>x.trim()).filter(Boolean)
     };
-    generate();closeModal();toast("Program oluşturuldu ✓");
+    if(generate()){
+      closeModal();
+      switchView("home");
+      toast("✓ Program oluşturuldu","green");
+    }
   };
 }
+
+/* generate — başarı bayrağı döner, sessizce başarısız olmaz */
 function generate(){
-  state.program=buildProgram();
-  state.ui.visibleDays=10;
-  save();renderAll();
+  try{
+    const p=buildProgram();
+    if(!Array.isArray(p)||p.length===0){
+      console.warn("[DEK AI] buildProgram boş döndü. setup:",state.setup);
+      toast("⚠️ Program oluşturulamadı — sınav tarihi başlangıçtan sonra olmalı");
+      return false;
+    }
+    state.program=p;
+    state.ui.visibleDays=10;
+    save();
+    renderAll();
+    return true;
+  }catch(e){
+    console.error("[DEK AI] generate hatası:",e);
+    toast("❌ Program hatası: "+e.message);
+    return false;
+  }
 }
 
 /* === EVENTS === */
@@ -2231,6 +2294,12 @@ document.addEventListener("click",ev=>{
     state.repetitions=state.repetitions.filter(x=>x.id!==id);
     save();renderAll();toast("Tekrar kaldırıldı");return;
   }
+  if(act==="deldeneme"){
+    const idx=Number(el.dataset.idx);
+    if(!Number.isInteger(idx)||!state.denemeler[idx])return;
+    state.denemeler.splice(idx,1);
+    save();renderAll();toast("Deneme silindi");return;
+  }
   if(act==="delres"){
     ev.preventDefault();
     const k=el.dataset.key,i=Number(el.dataset.idx);
@@ -2252,7 +2321,7 @@ document.addEventListener("click",ev=>{
   if(act==="toggle"){
     if(card)card.done=!card.done;
     else if(repCard){const r=state.repetitions.find(x=>"rep-"+x.id===cardId);if(r)r.done=!r.done;}
-    save();renderAll();checkBadges();
+    save();renderAll();
   }
   else if(act==="study")openStudy(dayIso,cardId,false);
   else if(act==="study-rep")openStudy(dayIso,cardId,true);
@@ -2295,6 +2364,16 @@ const VIEW_TITLES={
   resources:["Kaynaklarım","Sabit ve kişisel kaynakların"],
   settings:["Ayarlar","Program, veri yönetimi ve API yapılandırması"]
 };
+const VIEW_RENDERERS={
+  home:()=>renderHome(),
+  program:()=>renderProgram(),
+  progress:()=>renderProgress(),
+  analytics:()=>renderAnalytics(),
+  badges:()=>renderBadges(),
+  deneme:()=>renderDeneme(),
+  resources:()=>renderResources(),
+  settings:()=>renderSettings()
+};
 function switchView(v){
   $$(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.view===v));
   ["home","program","progress","analytics","badges","deneme","resources","settings"].forEach(k=>{
@@ -2303,7 +2382,7 @@ function switchView(v){
   });
   $("#viewTitle").textContent=VIEW_TITLES[v][0];
   $("#viewSub").textContent=VIEW_TITLES[v][1];
-  if(v==="analytics")setTimeout(renderAnalytics,20);
+  if(VIEW_RENDERERS[v]) setTimeout(VIEW_RENDERERS[v],20);
   closeSidebar();
 }
 $("#nav").addEventListener("click",e=>{
@@ -2320,17 +2399,35 @@ $("#sidebarOverlay").onclick=closeSidebar;
 $("#btnWizard").onclick=openWizard;
 $("#btnRebuild").onclick=()=>{
   if(!state.setup)return openWizard();
-  generate();toast("Program yeniden oluşturuldu");
+  if(generate())toast("✓ Program yeniden oluşturuldu","green");
+};
+
+/* === DEBUG HELPER === */
+window.dekDebug = function(){
+  console.log("=== DEK AI Debug ===");
+  console.log("version:", APP_VERSION);
+  console.log("state.setup:", state.setup);
+  console.log("state.program.length:", state.program.length);
+  console.log("state.program[0]:", state.program[0]);
+  console.log("state.tests:", state.tests.length);
+  console.log("state.denemeler:", state.denemeler.length);
+  console.log("state.badges:", state.badges);
+  console.log("pomodoro:", state.pomodoro);
+  try {
+    const raw = localStorage.getItem(STORE_KEY);
+    console.log("LS size (KB):", raw ? (raw.length/1024).toFixed(1) : "null");
+  } catch(e){ console.log("LS okunamadı:", e.message); }
+  console.log("IDB ready:", _idbReady);
 };
 
 /* ============================================================
    INIT — IndexedDB aç, gerekirse geri yükle, uygulamayı başlat
    ============================================================ */
 (async function initApp(){
+  console.info("[DEK AI] v"+APP_VERSION+" başlatılıyor");
   await openIDB();
   requestPersistentStorage();
 
-  // localStorage boşaldıysa ama IDB doluysa geri yükle
   const rec = await idbGet();
   if(rec && rec.data){
     let needRestore = false;
@@ -2358,7 +2455,15 @@ $("#btnRebuild").onclick=()=>{
   ensurePomodoroToday();
   pomoRuntime.seconds=pomoWorkSec();
   renderAll();
-  if(!state.setup)setTimeout(openWizard,400);
+
+  // Setup var ama program yoksa otomatik onar
+  if(!state.setup){
+    setTimeout(openWizard, 400);
+  } else if(!state.program.length){
+    console.info("[DEK AI] Setup var ama program yok — otomatik üretiliyor");
+    generate();
+  }
+  console.info("[DEK AI] Hazır. Program:", state.program.length, "gün · Setup:", !!state.setup);
 })();
 </script>
 </body>
