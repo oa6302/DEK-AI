@@ -356,7 +356,6 @@ a.row:hover{border-color:var(--acc-line);background:#fff}
   apple.href = svgData(192);
   document.head.appendChild(apple);
 
-  // SW kaydı — updateViaCache:none ile eski cache'i atlar
   if("serviceWorker" in navigator){
     window.addEventListener("load", async ()=>{
       try{
@@ -658,7 +657,6 @@ function normalizeParsed(parsed){
   return merged;
 }
 
-/* load — hatalar artık sessizce yutulmuyor */
 function load(){
   const primary = localStorage.getItem(STORE_KEY);
   if(primary){
@@ -677,7 +675,6 @@ function load(){
   const f=structuredClone(DEFAULT_STATE);f.playlists=seedPlaylists();return f;
 }
 
-/* saveNow — hatayı gizlemiyor, indicator'ı doğru günceller */
 function saveNow(){
   clearTimeout(_saveTimer); _saveTimer=null;
   try{
@@ -720,7 +717,6 @@ function updateSaveIndicator(ok){
   el._t=setTimeout(()=>el.style.opacity="0",1500);
 }
 
-/* Proxy — her mutasyonda otomatik kayıt */
 function makeReactive(obj){
   const cache=new WeakMap();
   function wrap(o){
@@ -757,7 +753,6 @@ document.addEventListener("visibilitychange",()=>{
 });
 setInterval(()=>{ if(_dirty) saveNow(); }, 30000);
 
-/* --------- yardımcılar --------- */
 function ensurePomodoroToday(){
   const today=iso(new Date());
   if(state.pomodoro.date!==today){state.pomodoro.date=today;state.pomodoro.count=0;save();}
@@ -801,7 +796,6 @@ function buildPools(){
   return pools;
 }
 
-/* buildProgram — defensive: setup ve tarih kontrolleri, dailyHours kullanımı */
 function buildProgram(){
   if(!state.setup){
     console.error("[DEK AI] buildProgram: state.setup yok");
@@ -980,7 +974,6 @@ function renderPomodoro(){
       </div>
     </div>`;
   pomoUpdateRing();
-  // Görev seçimi korunuyor
   const taskSel = $("#pomoTask");
   if(taskSel){
     if(pomoTaskValue) taskSel.value = pomoTaskValue;
@@ -1323,6 +1316,32 @@ function cardHTML(c,dayIso){
 }
 
 /* === DERS DEĞİŞTİRME === */
+/* Bir ders kartı değiştiğinde, ertesi günün review kartındaki
+   aynı sıradaki öğeyi de günceller. Orijinal veri yapısı korunur. */
+function syncNextDayReview(dayIso, cardId){
+  const dayIdx = state.program.findIndex(d => d.iso === dayIso);
+  if(dayIdx < 0 || dayIdx >= state.program.length - 1) return;
+
+  const day = state.program[dayIdx];
+  // buildProgram'daki sıra ile birebir aynı: sadece lesson kartları
+  const lessonCards = day.cards.filter(c => c.type === "lesson");
+  const idx = lessonCards.findIndex(c => c.id === cardId);
+  if(idx < 0) return;
+
+  const liveCard = lessonCards[idx];
+  const nextDay  = state.program[dayIdx + 1];
+  const reviewCard = nextDay.cards.find(c => c.type === "review");
+  if(!reviewCard || !Array.isArray(reviewCard.items)) return;
+  if(idx >= reviewCard.items.length) return; // güvenlik
+
+  // Aynı formatta, aynı sırada güncelle (proxy üzerinden → otomatik kayıt)
+  reviewCard.items[idx] = {
+    examType: liveCard.examType,
+    subject:  liveCard.subject,
+    topic:    liveCard.topic
+  };
+}
+
 function openEditLesson(dayIso, cardId){
   const day=state.program.find(d=>d.iso===dayIso);
   if(!day){toast("Gün bulunamadı");return;}
@@ -1369,6 +1388,9 @@ function openEditLesson(dayIso, cardId){
     if(!newSubj||!newTopic){toast("Ders ve konu seçilmeli");return;}
     card.examType=newExam;card.phase=newExam==="TYT"?"TYT":"AYT";
     card.subject=newSubj;card.topic=newTopic;card.q=newQ;
+
+    syncNextDayReview(dayIso, cardId);
+
     save();closeModal();renderAll();
     toast(`✓ Kart güncellendi`,"green");
   };
@@ -2230,7 +2252,6 @@ function openWizard(){
   };
 }
 
-/* generate — başarı bayrağı döner, sessizce başarısız olmaz */
 function generate(){
   try{
     const p=buildProgram();
@@ -2456,7 +2477,6 @@ window.dekDebug = function(){
   pomoRuntime.seconds=pomoWorkSec();
   renderAll();
 
-  // Setup var ama program yoksa otomatik onar
   if(!state.setup){
     setTimeout(openWizard, 400);
   } else if(!state.program.length){
